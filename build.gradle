@@ -1,0 +1,99 @@
+buildscript {
+ repositories {
+  jcenter()
+  maven {
+   url "https://plugins.gradle.org/m2/"
+  }
+ }
+ dependencies {
+  classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
+  classpath 'net.researchgate:gradle-release:2.2.2'
+  classpath "gradle.plugin.se.bjurr.gitchangelog:git-changelog-gradle-plugin:1.21"
+ }
+}
+
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'eclipse'
+apply plugin: 'signing'
+apply plugin: 'com.bmuschko.nexus'
+apply plugin: 'net.researchgate.release'
+apply plugin: "se.bjurr.gitchangelog.git-changelog-gradle-plugin"
+
+task gitChangelogTask(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
+ filePath = "CHANGELOG.md";
+ templateContent = new File('changelog.mustache').getText('UTF-8');
+}
+
+group = 'se.bjurr.violations'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+ mavenLocal()
+ mavenCentral()
+}
+
+dependencies {
+ compile 'se.bjurr.violations:violation-comments-lib:1.0'
+ compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.5'
+}
+
+eclipse {
+ classpath {
+  downloadSources = true
+  downloadJavadoc = true
+ }
+}
+
+sourceSets {
+ main.java.srcDirs = ['src/main/java' ]
+ test.java.srcDirs = ['src/test/java' ]
+}
+
+if (JavaVersion.current().isJava8Compatible()) {
+ allprojects {
+  tasks.withType(Javadoc) {
+   options.addStringOption('Xdoclint:none', '-quiet')
+  }
+ }
+}
+
+modifyPom {
+ project {
+  name 'Violation Comments to GitHub Lib'
+  description 'Library that adds violation comments from static code analysis to GitHub.'
+  url 'https://github.com/tomasbjerre/violation-comments-to-github-lib'
+  inceptionYear '2016'
+   scm {
+   url 'https://github.com/tomasbjerre/violation-comments-to-github-lib'
+   connection 'scm:https://tomasbjerre@github.com/tomasbjerre/violation-comments-to-github-lib.git'
+   developerConnection 'scm:git://github.com/tomasbjerre/violation-comments-to-github-lib.git'
+  }
+
+  licenses {
+   license {
+    name 'The Apache Software License, Version 2.0'
+    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    distribution 'repo'
+   }
+  }
+
+  developers {
+   developer {
+    id 'tomasbjerre'
+    name 'Tomas Bjerre'
+    email 'tomas.bjerre85@gmail.com'
+   }
+  }
+ }
+}
+
+extraArchive {
+ sources = true
+ tests = true
+ javadoc = true
+}
+
+afterReleaseBuild.dependsOn uploadArchives
