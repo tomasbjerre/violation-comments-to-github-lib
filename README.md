@@ -15,14 +15,15 @@ Very easy to use with a nice builder patternn
     .toPullRequest("organization","repository",repositoryId);
 ```
 
-Authentication can be done by supplying username/password or OAuth2Token in the builder. If these are not supplied, the lib will look for these environment variables:
- * *github_oauth2token*
- * *github_username* and *github_password*
+Authentication can be done by supplying username/password or OAuth2Token in the builder. 
 
 ## Usage
 This software can be used:
  * With a [Gradle plugin](https://github.com/tomasbjerre/violation-comments-to-github-gradle-plugin).
  * With a [Maven plugin](https://github.com/tomasbjerre/violation-comments-to-github-maven-plugin).
+ * With a [Jenkins plugin](https://github.com/tomasbjerre/violation-comments-to-github-jenkins-plugin).
+
+You may also checkout [this blog post](http://bjurr.se/static-code-analysis-with-github/) that explains how to set it up with Travis.
 
 ## Developer instructions
 
