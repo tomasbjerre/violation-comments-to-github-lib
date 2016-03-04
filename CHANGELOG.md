@@ -1,11 +1,11 @@
 # Changelog
 
-## Unreleased
+## 1.0
 ### No issue
 
 **Initial**
 
 
-[47b047718cd8164](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/47b047718cd8164) Tomas Bjerre *2016-03-03 21:00:08*
+[40e3f16f9fe166a](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/40e3f16f9fe166a) Tomas Bjerre *2016-03-04 18:21:49*
 
 

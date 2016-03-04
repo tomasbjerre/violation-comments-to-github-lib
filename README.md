@@ -1,8 +1,8 @@
-# Violation Comments to GitHub Lib [![Build Status](https://travis-ci.org/tomasbjerre/violation-comments-to-github-lib.svg?branch=master)](https://travis-ci.org/tomasbjerre/violation-comments-to-github) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/se.bjurr.violations/violation-comments-to-github/badge.svg)](https://maven-badges.herokuapp.com/maven-central/se.bjurr.violations/violation-comments-to-github)
+# Violation Comments to GitHub Lib [![Build Status](https://travis-ci.org/tomasbjerre/violation-comments-to-github-lib.svg?branch=master)](https://travis-ci.org/tomasbjerre/violation-comments-to-github-lib) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/se.bjurr.violations/violation-comments-to-github/badge.svg)](https://maven-badges.herokuapp.com/maven-central/se.bjurr.violations/violation-comments-to-github)
 
 This is a library that adds violation comments from static code analysis to GitHub.
 
-It supports the same formats as [Violations Lib](https://github.com/tomasbjerre/violations-lib).
+It uses [Violation Comments Lib](https://github.com/tomasbjerre/violation-comments-lib) and supports the same formats as [Violations Lib](https://github.com/tomasbjerre/violations-lib).
 
 Very easy to use with a nice builder patternn
 ```
