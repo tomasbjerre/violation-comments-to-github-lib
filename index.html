@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Violation-comments-to-GitHub-lib : A library for commenting GitHub with violations from static code analyzer reports.">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Violation-comments-to-GitHub-lib</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/tomasbjerre/violation-comments-to-github-lib">View on GitHub</a>
+
+          <h1 id="project_title">Violation-comments-to-GitHub-lib</h1>
+          <h2 id="project_tagline">A library for commenting GitHub with violations from static code analyzer reports.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/tomasbjerre/violation-comments-to-github-lib/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/tomasbjerre/violation-comments-to-github-lib/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="violation-comments-to-github-lib--" class="anchor" href="#violation-comments-to-github-lib--" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Violation Comments to GitHub Lib <a href="https://travis-ci.org/tomasbjerre/violation-comments-to-github-lib"><img src="https://travis-ci.org/tomasbjerre/violation-comments-to-github-lib.svg?branch=master" alt="Build Status"></a> <a href="https://maven-badges.herokuapp.com/maven-central/se.bjurr.violations/violation-comments-to-github"><img src="https://maven-badges.herokuapp.com/maven-central/se.bjurr.violations/violation-comments-to-github/badge.svg" alt="Maven Central"></a>
+</h1>
+
+<p>This is a library that adds violation comments from static code analysis to GitHub.</p>
+
+<p>It uses <a href="https://github.com/tomasbjerre/violation-comments-lib">Violation Comments Lib</a> and supports the same formats as <a href="https://github.com/tomasbjerre/violations-lib">Violations Lib</a>.</p>
+
+<p>Very easy to use with a nice builder patternn</p>
+
+<pre><code>  violationsToGitHubApi() //
+    .withViolations(".*/findbugs/.*\\.xml$", FINDBUGS, rootFolder) //
+    .withViolations(".*/checkstyle/.*\\.xml$", CHECKSTYLE, rootFolder) //
+    .limitNumberOfCommentsTo(20) // Optional
+    .usingCredentials("username","password") // This is Optional!
+    .usingOAuth2Token("token") // This is Optional!
+    .toPullRequest("organization","repository",repositoryId);
+</code></pre>
+
+<p>Authentication can be done by supplying username/password or OAuth2Token in the builder. </p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>This software can be used:</p>
+
+<ul>
+<li>With a <a href="https://github.com/tomasbjerre/violation-comments-to-github-gradle-plugin">Gradle plugin</a>.</li>
+<li>With a <a href="https://github.com/tomasbjerre/violation-comments-to-github-maven-plugin">Maven plugin</a>.</li>
+</ul>
+
+<p>You may also checkout <a href="http://bjurr.se/static-code-analysis-with-github/">this blog post</a> that explains how to set it up with Travis.</p>
+
+<h2>
+<a id="developer-instructions" class="anchor" href="#developer-instructions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Developer instructions</h2>
+
+<p>To build the code, have a look at <code>.travis.yml</code>.</p>
+
+<p>To do a release you need to do <code>./gradlew release</code> and release the artifact from <a href="https://oss.sonatype.org/#stagingRepositories">staging</a>. More information <a href="http://central.sonatype.org/pages/releasing-the-deployment.html">here</a>.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Violation-comments-to-GitHub-lib maintained by <a href="https://github.com/tomasbjerre">tomasbjerre</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
