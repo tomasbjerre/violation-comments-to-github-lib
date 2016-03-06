@@ -1,12 +1,36 @@
 # Changelog
 
 ## Unreleased
+### GitHub [#4](https://github.com/tomasbjerre/violations-comments-to-github-lib/issues/4) 
+
+**Optionally comment only changed content**
+
+ * Also correcting spaces in error logging string 
+
+[2bcc89eaa1feada](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/2bcc89eaa1feada) Tomas Bjerre *2016-03-08 17:17:58*
+
+
+## 1.4
+### No issue
+
+**Not propagating exceptions, just logging**
+
+
+[aa9031ade3b098e](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/aa9031ade3b098e) Tomas Bjerre *2016-03-06 21:18:09*
+
+**Adding supported formats to README.md**
+
+
+[b4575c1c1bcb3a2](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/b4575c1c1bcb3a2) Tomas Bjerre *2016-03-06 20:21:01*
+
+
+## 1.3
 ### No issue
 
 **Support PerlCritic, XMLLint, CPPLint, Flake8, Resharper and CPPCheck**
 
 
-[1245cc66a17cd1f](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/1245cc66a17cd1f) Tomas Bjerre *2016-03-06 13:54:01*
+[f6a10ea3b0d9376](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/f6a10ea3b0d9376) Tomas Bjerre *2016-03-06 13:54:13*
 
 
 ## 1.2

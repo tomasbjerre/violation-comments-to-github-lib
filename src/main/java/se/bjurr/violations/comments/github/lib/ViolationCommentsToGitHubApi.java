@@ -28,6 +28,7 @@ public class ViolationCommentsToGitHubApi {
  private List<Violation> violations;
  private boolean createSingleFileComments = true;
  private boolean createCommentWithAllSingleFileComments = false;
+ private boolean commentOnlyChangedContent = false;
 
  private ViolationCommentsToGitHubApi() {
 
@@ -35,6 +36,15 @@ public class ViolationCommentsToGitHubApi {
 
  public static ViolationCommentsToGitHubApi violationCommentsToGitHubApi() {
   return new ViolationCommentsToGitHubApi();
+ }
+
+ public boolean getCommentOnlyChangedContent() {
+  return commentOnlyChangedContent;
+ }
+
+ public ViolationCommentsToGitHubApi withCommentOnlyChangedContent(boolean commentOnlyChangedContent) {
+  this.commentOnlyChangedContent = commentOnlyChangedContent;
+  return this;
  }
 
  public ViolationCommentsToGitHubApi withCreateCommentWithAllSingleFileComments(
