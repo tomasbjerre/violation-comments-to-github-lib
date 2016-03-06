@@ -15,11 +15,14 @@ import org.eclipse.egit.github.core.RepositoryId;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.IssueService;
 import org.eclipse.egit.github.core.service.PullRequestService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import se.bjurr.violations.comments.lib.model.Comment;
 import se.bjurr.violations.comments.lib.model.CommentsProvider;
 
 public class GitHubCommentsProvider implements CommentsProvider {
+ private static final Logger LOG = LoggerFactory.getLogger(GitHubCommentsProvider.class);
 
  private static final String TYPE_PR = "TYPE_PR";
  private static final String TYPE_DIFF = "TYPE_DIFF";
@@ -66,7 +69,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
      issueSerivce.deleteComment(repository, commentId);
     }
    } catch (Exception e) {
-    propagate(e);
+    LOG.error("", e);
    }
   }
  }
@@ -80,7 +83,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
     fileStrings.add(commitFile.getFilename());
    }
   } catch (IOException e) {
-   propagate(e);
+   LOG.error("", e);
   }
   return fileStrings;
  }
@@ -96,7 +99,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
     comments.add(new Comment(Long.toString(comment.getId()), comment.getBody(), TYPE_PR));
    }
   } catch (Exception e) {
-   propagate(e);
+   LOG.error("", e);
   }
   return comments;
  }
@@ -119,7 +122,11 @@ public class GitHubCommentsProvider implements CommentsProvider {
    commitComment.setPosition(1);
    pullRequestService.createComment(repository, pullRequestId, commitComment);
   } catch (IOException e) {
-   propagate(e);
+   LOG.error(//
+     "File: \"" + file + "\"" + //
+       "Line: \"" + line + "\"" + //
+       "Comment: \"" + comment + "\"" //
+     , e);
   }
  }
 
@@ -131,7 +138,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
   try {
    issueSerivce.createComment(repository, pullRequestId, comment);
   } catch (IOException e) {
-   propagate(e);
+   LOG.error("", e);
   }
  }
 }
