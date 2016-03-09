@@ -1,7 +1,6 @@
 package se.bjurr.violations.comments.github.lib;
 
 import static com.google.common.base.Optional.absent;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.propagate;
 import static com.google.common.collect.Lists.newArrayList;
 import static org.eclipse.egit.github.core.client.GitHubClient.createClient;
@@ -57,7 +56,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
   } catch (IOException e) {
    throw propagate(e);
   }
-  this.pullRequestCommit = checkNotNull(commits.get(0).getSha(), "PR commit sha");
+  this.pullRequestCommit = commits.get(commits.size() - 1).getSha();
   this.violationCommentsToGitHubApi = violationCommentsToGitHubApi;
  }
 
@@ -130,8 +129,9 @@ public class GitHubCommentsProvider implements CommentsProvider {
    pullRequestService.createComment(repository, violationCommentsToGitHubApi.getPullRequestId(), commitComment);
   } catch (IOException e) {
    LOG.error(//
-     "File: \"" + file + "\" " + //
-       "Line: \"" + line + "\" " + //
+     "File: \"" + file + "\" \n" + //
+       "Line: \"" + line + "\" \n" + //
+       "Position: \"" + lineToComment.orNull() + "\" \n" + //
        "Comment: \"" + comment + "\"" //
      , e);
   }
