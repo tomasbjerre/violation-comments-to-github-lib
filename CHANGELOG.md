@@ -1,13 +1,23 @@
 # Changelog
 
-## Unreleased
+## 1.6
+### No issue
+
+**Using correct commit for PR**
+
+ * Was using the first one returned by /commits but the last one in the list is actualy the latest one. 
+
+[a475aaee7ea6fdb](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/a475aaee7ea6fdb) Tomas Bjerre *2016-03-09 17:35:47*
+
+
+## 1.5
 ### GitHub [#4](https://github.com/tomasbjerre/violations-comments-to-github-lib/issues/4) 
 
 **Optionally comment only changed content**
 
  * Also correcting spaces in error logging string 
 
-[2bcc89eaa1feada](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/2bcc89eaa1feada) Tomas Bjerre *2016-03-08 17:17:58*
+[6986d404caea459](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/6986d404caea459) Tomas Bjerre *2016-03-08 17:18:42*
 
 
 ## 1.4
