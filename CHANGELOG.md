@@ -1,5 +1,23 @@
 # Changelog
 
+## Unreleased
+### No issue
+
+**Making Violation class serializable**
+
+
+[d41f51a451798dd](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/d41f51a451798dd) Tomas Bjerre *2016-04-23 17:12:58*
+
+
+## 1.7
+### No issue
+
+**Parsing FindBugs xml correctly**
+
+
+[20a4136116f7efa](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/20a4136116f7efa) Tomas Bjerre *2016-04-07 16:43:50*
+
+
 ## 1.6
 ### No issue
 
