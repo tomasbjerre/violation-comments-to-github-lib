@@ -3,6 +3,7 @@
 This is a library that adds violation comments from static code analysis to GitHub.
 
 It uses [Violation Comments Lib](https://github.com/tomasbjerre/violation-comments-lib) and supports the same formats as [Violations Lib](https://github.com/tomasbjerre/violations-lib):
+ * [_AndoidLint_](http://developer.android.com/tools/help/lint.html)
  * [_Checkstyle_](http://checkstyle.sourceforge.net/)
  * [_CPPLint_](https://github.com/theandrewdavis/cpplint)
  * [_CPPCheck_](http://cppcheck.sourceforge.net/)
