@@ -20,122 +20,18 @@ import org.eclipse.egit.github.core.service.PullRequestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Optional;
+
 import se.bjurr.violations.comments.lib.model.ChangedFile;
 import se.bjurr.violations.comments.lib.model.Comment;
 import se.bjurr.violations.comments.lib.model.CommentsProvider;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Optional;
-
 public class GitHubCommentsProvider implements CommentsProvider {
  private static final Logger LOG = LoggerFactory.getLogger(GitHubCommentsProvider.class);
 
- private static final String TYPE_PR = "TYPE_PR";
  private static final String TYPE_DIFF = "TYPE_DIFF";
- private final RepositoryId repository;
- private final PullRequestService pullRequestService;
- private final IssueService issueSerivce;
- private final String pullRequestCommit;
-
- private final ViolationCommentsToGitHubApi violationCommentsToGitHubApi;
-
- public GitHubCommentsProvider(ViolationCommentsToGitHubApi violationCommentsToGitHubApi) {
-  GitHubClient gitHubClient = createClient(violationCommentsToGitHubApi.getGitHubUrl());
-  if (violationCommentsToGitHubApi.getOAuth2Token() != null) {
-   gitHubClient.setOAuth2Token(violationCommentsToGitHubApi.getOAuth2Token());
-  } else if (violationCommentsToGitHubApi.getUsername() != null && violationCommentsToGitHubApi.getPassword() != null) {
-   gitHubClient.setCredentials(violationCommentsToGitHubApi.getUsername(), violationCommentsToGitHubApi.getPassword());
-  }
-  repository = new RepositoryId(violationCommentsToGitHubApi.getRepositoryOwner(),
-    violationCommentsToGitHubApi.getRepositoryName());
-  pullRequestService = new PullRequestService(gitHubClient);
-  issueSerivce = new IssueService(gitHubClient);
-  List<RepositoryCommit> commits = null;
-  try {
-   commits = pullRequestService.getCommits(repository, violationCommentsToGitHubApi.getPullRequestId());
-  } catch (IOException e) {
-   throw propagate(e);
-  }
-  this.pullRequestCommit = commits.get(commits.size() - 1).getSha();
-  this.violationCommentsToGitHubApi = violationCommentsToGitHubApi;
- }
-
- @Override
- public void removeComments(List<Comment> comments) {
-  for (Comment comment : comments) {
-   try {
-    Long commentId = Long.valueOf(comment.getIdentifier());
-    if (comment.getType().equals(TYPE_DIFF)) {
-     pullRequestService.deleteComment(repository, commentId);
-    } else {
-     issueSerivce.deleteComment(repository, commentId);
-    }
-   } catch (Exception e) {
-    LOG.error("", e);
-   }
-  }
- }
-
- @Override
- public List<ChangedFile> getFiles() {
-  List<ChangedFile> changedFiles = newArrayList();
-  try {
-   List<CommitFile> files = pullRequestService.getFiles(repository, violationCommentsToGitHubApi.getPullRequestId());
-   for (CommitFile commitFile : files) {
-    changedFiles.add(new ChangedFile(commitFile.getFilename(), newArrayList(commitFile.getPatch())));
-   }
-  } catch (IOException e) {
-   LOG.error("", e);
-  }
-  return changedFiles;
- }
-
- @Override
- public List<Comment> getComments() {
-  List<Comment> comments = newArrayList();
-  try {
-   for (CommitComment commitComment : pullRequestService.getComments(repository,
-     violationCommentsToGitHubApi.getPullRequestId())) {
-    comments.add(new Comment(Long.toString(commitComment.getId()), commitComment.getBody(), TYPE_DIFF));
-   }
-   for (org.eclipse.egit.github.core.Comment comment : issueSerivce.getComments(repository,
-     violationCommentsToGitHubApi.getPullRequestId())) {
-    comments.add(new Comment(Long.toString(comment.getId()), comment.getBody(), TYPE_PR));
-   }
-  } catch (Exception e) {
-   LOG.error("", e);
-  }
-  return comments;
- }
-
- @Override
- public void createSingleFileComment(ChangedFile file, Integer line, String comment) {
-  if (!violationCommentsToGitHubApi.getCreateSingleFileComments()) {
-   return;
-  }
-  Optional<Integer> lineToComment = findLineToComment(file, line);
-  if (violationCommentsToGitHubApi.getCommentOnlyChangedContent() && !lineToComment.isPresent()) {
-   return;
-  } else if (!lineToComment.isPresent()) {
-   // Put comments, that are not int the diff, on line 1
-   lineToComment = Optional.of(1);
-  }
-  try {
-   CommitComment commitComment = new CommitComment();
-   commitComment.setBody(comment);
-   commitComment.setPath(file.getFilename());
-   commitComment.setCommitId(pullRequestCommit);
-   commitComment.setPosition(lineToComment.get());
-   pullRequestService.createComment(repository, violationCommentsToGitHubApi.getPullRequestId(), commitComment);
-  } catch (IOException e) {
-   LOG.error(//
-     "File: \"" + file + "\" \n" + //
-       "Line: \"" + line + "\" \n" + //
-       "Position: \"" + lineToComment.orNull() + "\" \n" + //
-       "Comment: \"" + comment + "\"" //
-     , e);
-  }
- }
+ private static final String TYPE_PR = "TYPE_PR";
 
  /**
   * http://en.wikipedia.org/wiki/Diff_utility#Unified_format
@@ -147,8 +43,8 @@ public class GitHubCommentsProvider implements CommentsProvider {
   String patchString = file.getSpecifics().get(0);
   for (String line : patchString.split("\n")) {
    if (line.startsWith("@")) {
-    Matcher matcher = Pattern.compile(
-      "@@\\p{IsWhite_Space}-[0-9]+(?:,[0-9]+)?\\p{IsWhite_Space}\\+([0-9]+)(?:,[0-9]+)?\\p{IsWhite_Space}@@.*")
+    Matcher matcher = Pattern
+      .compile("@@\\p{IsWhite_Space}-[0-9]+(?:,[0-9]+)?\\p{IsWhite_Space}\\+([0-9]+)(?:,[0-9]+)?\\p{IsWhite_Space}@@.*")
       .matcher(line);
     if (!matcher.matches()) {
      throw new IllegalStateException("Unable to parse patch line " + line + "\nFull patch: \n" + patchString);
@@ -166,15 +62,124 @@ public class GitHubCommentsProvider implements CommentsProvider {
   return absent();
  }
 
+ private final IssueService issueSerivce;
+ private final String pullRequestCommit;
+ private final PullRequestService pullRequestService;
+
+ private final RepositoryId repository;
+
+ private final ViolationCommentsToGitHubApi violationCommentsToGitHubApi;
+
+ public GitHubCommentsProvider(ViolationCommentsToGitHubApi violationCommentsToGitHubApi) {
+  GitHubClient gitHubClient = createClient(violationCommentsToGitHubApi.getGitHubUrl());
+  if (violationCommentsToGitHubApi.getOAuth2Token() != null) {
+   gitHubClient.setOAuth2Token(violationCommentsToGitHubApi.getOAuth2Token());
+  } else if (violationCommentsToGitHubApi.getUsername() != null && violationCommentsToGitHubApi.getPassword() != null) {
+   gitHubClient.setCredentials(violationCommentsToGitHubApi.getUsername(), violationCommentsToGitHubApi.getPassword());
+  }
+  this.repository = new RepositoryId(violationCommentsToGitHubApi.getRepositoryOwner(),
+    violationCommentsToGitHubApi.getRepositoryName());
+  this.pullRequestService = new PullRequestService(gitHubClient);
+  this.issueSerivce = new IssueService(gitHubClient);
+  List<RepositoryCommit> commits = null;
+  try {
+   commits = this.pullRequestService.getCommits(this.repository, violationCommentsToGitHubApi.getPullRequestId());
+  } catch (IOException e) {
+   throw propagate(e);
+  }
+  this.pullRequestCommit = commits.get(commits.size() - 1).getSha();
+  this.violationCommentsToGitHubApi = violationCommentsToGitHubApi;
+ }
+
  @Override
  public void createCommentWithAllSingleFileComments(String comment) {
-  if (!violationCommentsToGitHubApi.getCreateCommentWithAllSingleFileComments()) {
+  if (!this.violationCommentsToGitHubApi.getCreateCommentWithAllSingleFileComments()) {
    return;
   }
   try {
-   issueSerivce.createComment(repository, violationCommentsToGitHubApi.getPullRequestId(), comment);
+   this.issueSerivce.createComment(this.repository, this.violationCommentsToGitHubApi.getPullRequestId(), comment);
   } catch (IOException e) {
    LOG.error("", e);
+  }
+ }
+
+ @Override
+ public void createSingleFileComment(ChangedFile file, Integer line, String comment) {
+  if (!this.violationCommentsToGitHubApi.getCreateSingleFileComments()) {
+   return;
+  }
+  Optional<Integer> lineToComment = findLineToComment(file, line);
+  if (this.violationCommentsToGitHubApi.getCommentOnlyChangedContent() && !lineToComment.isPresent()) {
+   return;
+  } else if (!lineToComment.isPresent()) {
+   // Put comments, that are not int the diff, on line 1
+   lineToComment = Optional.of(1);
+  }
+  try {
+   CommitComment commitComment = new CommitComment();
+   commitComment.setBody(comment);
+   commitComment.setPath(file.getFilename());
+   commitComment.setCommitId(this.pullRequestCommit);
+   commitComment.setPosition(lineToComment.get());
+   this.pullRequestService.createComment(this.repository, this.violationCommentsToGitHubApi.getPullRequestId(),
+     commitComment);
+  } catch (IOException e) {
+   LOG.error(//
+     "File: \"" + file + "\" \n" + //
+       "Line: \"" + line + "\" \n" + //
+       "Position: \"" + lineToComment.orNull() + "\" \n" + //
+       "Comment: \"" + comment + "\"" //
+     , e);
+  }
+ }
+
+ @Override
+ public List<Comment> getComments() {
+  List<Comment> comments = newArrayList();
+  try {
+   List<String> specifics = newArrayList();
+   for (CommitComment commitComment : this.pullRequestService.getComments(this.repository,
+     this.violationCommentsToGitHubApi.getPullRequestId())) {
+    comments.add(new Comment(Long.toString(commitComment.getId()), commitComment.getBody(), TYPE_DIFF, specifics));
+   }
+   for (org.eclipse.egit.github.core.Comment comment : this.issueSerivce.getComments(this.repository,
+     this.violationCommentsToGitHubApi.getPullRequestId())) {
+    comments.add(new Comment(Long.toString(comment.getId()), comment.getBody(), TYPE_PR, specifics));
+   }
+  } catch (Exception e) {
+   LOG.error("", e);
+  }
+  return comments;
+ }
+
+ @Override
+ public List<ChangedFile> getFiles() {
+  List<ChangedFile> changedFiles = newArrayList();
+  try {
+   List<CommitFile> files = this.pullRequestService.getFiles(this.repository,
+     this.violationCommentsToGitHubApi.getPullRequestId());
+   for (CommitFile commitFile : files) {
+    changedFiles.add(new ChangedFile(commitFile.getFilename(), newArrayList(commitFile.getPatch())));
+   }
+  } catch (IOException e) {
+   LOG.error("", e);
+  }
+  return changedFiles;
+ }
+
+ @Override
+ public void removeComments(List<Comment> comments) {
+  for (Comment comment : comments) {
+   try {
+    Long commentId = Long.valueOf(comment.getIdentifier());
+    if (comment.getType().equals(TYPE_DIFF)) {
+     this.pullRequestService.deleteComment(this.repository, commentId);
+    } else {
+     this.issueSerivce.deleteComment(this.repository, commentId);
+    }
+   } catch (Exception e) {
+    LOG.error("", e);
+   }
   }
  }
 }
