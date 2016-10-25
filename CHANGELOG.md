@@ -1,12 +1,58 @@
 # Changelog
 
-## Unreleased
+## 1.13
+### No issue
+
+**Changing rule format in PyLint to CODE(codeName)**
+
+
+[bedae77056cc148](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/bedae77056cc148) Tomas Bjerre *2016-10-25 18:00:02*
+
+
+## 1.12
+### No issue
+
+**PyLint parser**
+
+
+[da5dcaee4171f59](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/da5dcaee4171f59) Tomas Bjerre *2016-10-24 17:28:55*
+
+
+## 1.11
+### No issue
+
+**Supporting StyleCop and fixing FxCop**
+
+
+[c89920e2f654b20](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/c89920e2f654b20) Tomas Bjerre *2016-10-03 17:06:34*
+
+
+## 1.10
+### No issue
+
+**FXCop**
+
+
+[3c32f2f79e8eba0](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/3c32f2f79e8eba0) Tomas Bjerre *2016-10-01 11:44:33*
+
+**doc**
+
+
+[647b17f95f49cfa](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/647b17f95f49cfa) Tomas Bjerre *2016-07-28 19:04:28*
+
+**doc**
+
+
+[1f41ffb0e59f86e](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/1f41ffb0e59f86e) Tomas Bjerre *2016-04-27 05:47:01*
+
+
+## 1.9
 ### No issue
 
 **Andoid lint**
 
 
-[9846a62fbf0d123](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/9846a62fbf0d123) Tomas Bjerre *2016-04-27 05:40:59*
+[7901e99127f093f](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/7901e99127f093f) Tomas Bjerre *2016-04-27 05:41:53*
 
 
 ## 1.8
