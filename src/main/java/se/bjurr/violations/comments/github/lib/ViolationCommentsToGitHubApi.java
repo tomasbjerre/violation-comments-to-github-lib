@@ -3,6 +3,7 @@ package se.bjurr.violations.comments.github.lib;
 import static com.google.common.base.Objects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.emptyToNull;
+import static java.lang.Integer.MAX_VALUE;
 import static se.bjurr.violations.comments.lib.CommentsCreator.createComments;
 
 import java.util.List;
@@ -14,6 +15,10 @@ public class ViolationCommentsToGitHubApi {
  public static final String DEFAULT_PROP_VIOLATIONS_OAUTH2TOKEN = "VIOLATIONS_OAUTH2TOKEN";
  public static final String DEFAULT_PROP_VIOLATIONS_USERNAME = "VIOLATIONS_USERNAME";
  public static final String DEFAULT_PROP_VIOLATIONS_PASSWORD = "VIOLATIONS_PASSWORD";
+
+ public static ViolationCommentsToGitHubApi violationCommentsToGitHubApi() {
+  return new ViolationCommentsToGitHubApi();
+ }
 
  private String propUsername = DEFAULT_PROP_VIOLATIONS_USERNAME;
  private String propPassword = DEFAULT_PROP_VIOLATIONS_PASSWORD;
@@ -28,133 +33,11 @@ public class ViolationCommentsToGitHubApi {
  private List<Violation> violations;
  private boolean createSingleFileComments = true;
  private boolean createCommentWithAllSingleFileComments = false;
+
  private boolean commentOnlyChangedContent = false;
 
  private ViolationCommentsToGitHubApi() {
 
- }
-
- public static ViolationCommentsToGitHubApi violationCommentsToGitHubApi() {
-  return new ViolationCommentsToGitHubApi();
- }
-
- public boolean getCommentOnlyChangedContent() {
-  return commentOnlyChangedContent;
- }
-
- public ViolationCommentsToGitHubApi withCommentOnlyChangedContent(boolean commentOnlyChangedContent) {
-  this.commentOnlyChangedContent = commentOnlyChangedContent;
-  return this;
- }
-
- public ViolationCommentsToGitHubApi withCreateCommentWithAllSingleFileComments(
-   boolean createCommentWithAllSingleFileComments) {
-  this.createCommentWithAllSingleFileComments = createCommentWithAllSingleFileComments;
-  return this;
- }
-
- public ViolationCommentsToGitHubApi withCreateSingleFileComments(boolean createSingleFileComments) {
-  this.createSingleFileComments = createSingleFileComments;
-  return this;
- }
-
- public void withPropOAuth2Token(String envOAuth2Token) {
-  this.propOAuth2Token = envOAuth2Token;
- }
-
- public void withPropPassword(String envPassword) {
-  this.propPassword = envPassword;
- }
-
- public void withPropUsername(String envUsername) {
-  this.propUsername = envUsername;
- }
-
- public String getPropOAuth2Token() {
-  return propOAuth2Token;
- }
-
- public String getPropPassword() {
-  return propPassword;
- }
-
- public String getPropUsername() {
-  return propUsername;
- }
-
- public ViolationCommentsToGitHubApi withViolations(List<Violation> violations) {
-  this.violations = violations;
-  return this;
- }
-
- public ViolationCommentsToGitHubApi withoAuth2Token(String oAuth2Token) {
-  this.oAuth2Token = emptyToNull(oAuth2Token);
-  return this;
- }
-
- public ViolationCommentsToGitHubApi withPullRequestId(int pullRequestId) {
-  this.pullRequestId = pullRequestId;
-  return this;
- }
-
- public ViolationCommentsToGitHubApi withRepositoryName(String repositoryName) {
-  this.repositoryName = emptyToNull(repositoryName);
-  return this;
- }
-
- public ViolationCommentsToGitHubApi withRepositoryOwner(String repositoryOwner) {
-  this.repositoryOwner = emptyToNull(repositoryOwner);
-  return this;
- }
-
- public String getGitHubUrl() {
-  return gitHubUrl;
- }
-
- public String getOAuth2Token() {
-  return oAuth2Token;
- }
-
- public String getPassword() {
-  return password;
- }
-
- public int getPullRequestId() {
-  return pullRequestId;
- }
-
- public String getRepositoryName() {
-  return repositoryName;
- }
-
- public String getRepositoryOwner() {
-  return repositoryOwner;
- }
-
- public String getUsername() {
-  return username;
- }
-
- public ViolationCommentsToGitHubApi withUsername(String username) {
-  this.username = username;
-  return this;
- }
-
- public ViolationCommentsToGitHubApi withGitHubUrl(String gitHubUrl) {
-  this.gitHubUrl = gitHubUrl;
-  return this;
- }
-
- public ViolationCommentsToGitHubApi withPassword(String password) {
-  this.password = password;
-  return this;
- }
-
- public void toPullRequest() throws Exception {
-  populateFromEnvironmentVariables();
-  checkState();
-  CommentsProvider commentsProvider = new GitHubCommentsProvider(this);
-  createComments(commentsProvider, violations);
  }
 
  private void checkState() {
@@ -173,6 +56,58 @@ public class ViolationCommentsToGitHubApi {
   checkNotNull(repositoryOwner, "RepositoryOwner");
  }
 
+ public boolean getCommentOnlyChangedContent() {
+  return commentOnlyChangedContent;
+ }
+
+ public boolean getCreateCommentWithAllSingleFileComments() {
+  return createCommentWithAllSingleFileComments;
+ }
+
+ public boolean getCreateSingleFileComments() {
+  return createSingleFileComments;
+ }
+
+ public String getGitHubUrl() {
+  return gitHubUrl;
+ }
+
+ public String getOAuth2Token() {
+  return oAuth2Token;
+ }
+
+ public String getPassword() {
+  return password;
+ }
+
+ public String getPropOAuth2Token() {
+  return propOAuth2Token;
+ }
+
+ public String getPropPassword() {
+  return propPassword;
+ }
+
+ public String getPropUsername() {
+  return propUsername;
+ }
+
+ public int getPullRequestId() {
+  return pullRequestId;
+ }
+
+ public String getRepositoryName() {
+  return repositoryName;
+ }
+
+ public String getRepositoryOwner() {
+  return repositoryOwner;
+ }
+
+ public String getUsername() {
+  return username;
+ }
+
  private void populateFromEnvironmentVariables() {
   if (System.getProperty(propUsername) != null) {
    username = firstNonNull(username, System.getProperty(propUsername));
@@ -185,11 +120,78 @@ public class ViolationCommentsToGitHubApi {
   }
  }
 
- public boolean getCreateCommentWithAllSingleFileComments() {
-  return createCommentWithAllSingleFileComments;
+ public void toPullRequest() throws Exception {
+  populateFromEnvironmentVariables();
+  checkState();
+  CommentsProvider commentsProvider = new GitHubCommentsProvider(this);
+  createComments(commentsProvider, violations, MAX_VALUE);
  }
 
- public boolean getCreateSingleFileComments() {
-  return createSingleFileComments;
+ public ViolationCommentsToGitHubApi withCommentOnlyChangedContent(boolean commentOnlyChangedContent) {
+  this.commentOnlyChangedContent = commentOnlyChangedContent;
+  return this;
+ }
+
+ public ViolationCommentsToGitHubApi withCreateCommentWithAllSingleFileComments(
+   boolean createCommentWithAllSingleFileComments) {
+  this.createCommentWithAllSingleFileComments = createCommentWithAllSingleFileComments;
+  return this;
+ }
+
+ public ViolationCommentsToGitHubApi withCreateSingleFileComments(boolean createSingleFileComments) {
+  this.createSingleFileComments = createSingleFileComments;
+  return this;
+ }
+
+ public ViolationCommentsToGitHubApi withGitHubUrl(String gitHubUrl) {
+  this.gitHubUrl = gitHubUrl;
+  return this;
+ }
+
+ public ViolationCommentsToGitHubApi withoAuth2Token(String oAuth2Token) {
+  this.oAuth2Token = emptyToNull(oAuth2Token);
+  return this;
+ }
+
+ public ViolationCommentsToGitHubApi withPassword(String password) {
+  this.password = password;
+  return this;
+ }
+
+ public void withPropOAuth2Token(String envOAuth2Token) {
+  propOAuth2Token = envOAuth2Token;
+ }
+
+ public void withPropPassword(String envPassword) {
+  propPassword = envPassword;
+ }
+
+ public void withPropUsername(String envUsername) {
+  propUsername = envUsername;
+ }
+
+ public ViolationCommentsToGitHubApi withPullRequestId(int pullRequestId) {
+  this.pullRequestId = pullRequestId;
+  return this;
+ }
+
+ public ViolationCommentsToGitHubApi withRepositoryName(String repositoryName) {
+  this.repositoryName = emptyToNull(repositoryName);
+  return this;
+ }
+
+ public ViolationCommentsToGitHubApi withRepositoryOwner(String repositoryOwner) {
+  this.repositoryOwner = emptyToNull(repositoryOwner);
+  return this;
+ }
+
+ public ViolationCommentsToGitHubApi withUsername(String username) {
+  this.username = username;
+  return this;
+ }
+
+ public ViolationCommentsToGitHubApi withViolations(List<Violation> violations) {
+  this.violations = violations;
+  return this;
  }
 }
