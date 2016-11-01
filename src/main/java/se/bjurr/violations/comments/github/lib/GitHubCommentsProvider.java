@@ -93,9 +93,6 @@ public class GitHubCommentsProvider implements CommentsProvider {
 
  @Override
  public void createCommentWithAllSingleFileComments(String comment) {
-  if (!violationCommentsToGitHubApi.getCreateCommentWithAllSingleFileComments()) {
-   return;
-  }
   try {
    issueSerivce.createComment(repository, violationCommentsToGitHubApi.getPullRequestId(), comment);
   } catch (IOException e) {
@@ -105,9 +102,6 @@ public class GitHubCommentsProvider implements CommentsProvider {
 
  @Override
  public void createSingleFileComment(ChangedFile file, Integer line, String comment) {
-  if (!violationCommentsToGitHubApi.getCreateSingleFileComments()) {
-   return;
-  }
   Optional<Integer> lineToComment = findLineToComment(file, line);
   if (!lineToComment.isPresent()) {
    // Put comments, that are not int the diff, on line 1
@@ -183,5 +177,15 @@ public class GitHubCommentsProvider implements CommentsProvider {
  public boolean shouldComment(ChangedFile changedFile, Integer line) {
   Optional<Integer> lineToComment = findLineToComment(changedFile, line);
   return violationCommentsToGitHubApi.getCommentOnlyChangedContent() && !lineToComment.isPresent();
+ }
+
+ @Override
+ public boolean shouldCreateCommentWithAllSingleFileComments() {
+  return violationCommentsToGitHubApi.getCreateCommentWithAllSingleFileComments();
+ }
+
+ @Override
+ public boolean shouldCreateSingleFileComment() {
+  return violationCommentsToGitHubApi.getCreateSingleFileComments();
  }
 }
