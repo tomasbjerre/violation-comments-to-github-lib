@@ -176,7 +176,12 @@ public class GitHubCommentsProvider implements CommentsProvider {
  @Override
  public boolean shouldComment(ChangedFile changedFile, Integer line) {
   Optional<Integer> lineToComment = findLineToComment(changedFile, line);
-  return violationCommentsToGitHubApi.getCommentOnlyChangedContent() && !lineToComment.isPresent();
+  boolean lineNotChanged = !lineToComment.isPresent();
+  boolean commentOnlyChangedContent = violationCommentsToGitHubApi.getCommentOnlyChangedContent();
+  if (commentOnlyChangedContent && lineNotChanged) {
+   return false;
+  }
+  return true;
  }
 
  @Override
