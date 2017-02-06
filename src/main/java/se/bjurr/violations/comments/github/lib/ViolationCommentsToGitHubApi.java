@@ -1,10 +1,10 @@
 package se.bjurr.violations.comments.github.lib;
 
-import static com.google.common.base.Objects.firstNonNull;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Strings.emptyToNull;
 import static java.lang.Integer.MAX_VALUE;
 import static se.bjurr.violations.comments.lib.CommentsCreator.createComments;
+import static se.bjurr.violations.lib.util.Utils.checkNotNull;
+import static se.bjurr.violations.lib.util.Utils.emptyToNull;
+import static se.bjurr.violations.lib.util.Utils.firstNonNull;
 
 import java.util.List;
 

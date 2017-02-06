@@ -1,11 +1,10 @@
 package se.bjurr.violations.comments.github.lib;
 
-import static com.google.common.base.Optional.absent;
-import static com.google.common.base.Throwables.propagate;
-import static com.google.common.collect.Lists.newArrayList;
 import static org.eclipse.egit.github.core.client.GitHubClient.createClient;
+import static se.bjurr.violations.lib.util.Optional.absent;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,12 +19,10 @@ import org.eclipse.egit.github.core.service.PullRequestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Optional;
-
 import se.bjurr.violations.comments.lib.model.ChangedFile;
 import se.bjurr.violations.comments.lib.model.Comment;
 import se.bjurr.violations.comments.lib.model.CommentsProvider;
+import se.bjurr.violations.lib.util.Optional;
 
 public class GitHubCommentsProvider implements CommentsProvider {
  private static final Logger LOG = LoggerFactory.getLogger(GitHubCommentsProvider.class);
@@ -36,7 +33,6 @@ public class GitHubCommentsProvider implements CommentsProvider {
  /**
   * http://en.wikipedia.org/wiki/Diff_utility#Unified_format
   */
- @VisibleForTesting
  static Optional<Integer> findLineToComment(ChangedFile file, Integer lineToComment) {
   int currentLine = -1;
   int patchLocation = 0;
@@ -53,7 +49,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
    } else if (line.startsWith("+") || line.startsWith(" ")) {
     // Added or unmodified
     if (currentLine == lineToComment) {
-     return Optional.of(patchLocation);
+     return Optional.fromNullable(patchLocation);
     }
     currentLine++;
    }
@@ -85,7 +81,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
   try {
    commits = pullRequestService.getCommits(repository, violationCommentsToGitHubApi.getPullRequestId());
   } catch (IOException e) {
-   throw propagate(e);
+   throw new RuntimeException(e);
   }
   pullRequestCommit = commits.get(commits.size() - 1).getSha();
   this.violationCommentsToGitHubApi = violationCommentsToGitHubApi;
@@ -105,7 +101,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
   Optional<Integer> lineToComment = findLineToComment(file, line);
   if (!lineToComment.isPresent()) {
    // Put comments, that are not int the diff, on line 1
-   lineToComment = Optional.of(1);
+   lineToComment = Optional.fromNullable(1);
   }
   try {
    CommitComment commitComment = new CommitComment();
@@ -126,9 +122,9 @@ public class GitHubCommentsProvider implements CommentsProvider {
 
  @Override
  public List<Comment> getComments() {
-  List<Comment> comments = newArrayList();
+  List<Comment> comments = new ArrayList<>();
   try {
-   List<String> specifics = newArrayList();
+   List<String> specifics = new ArrayList<>();
    for (CommitComment commitComment : pullRequestService.getComments(repository,
      violationCommentsToGitHubApi.getPullRequestId())) {
     comments.add(new Comment(Long.toString(commitComment.getId()), commitComment.getBody(), TYPE_DIFF, specifics));
@@ -145,11 +141,13 @@ public class GitHubCommentsProvider implements CommentsProvider {
 
  @Override
  public List<ChangedFile> getFiles() {
-  List<ChangedFile> changedFiles = newArrayList();
+  List<ChangedFile> changedFiles = new ArrayList<>();
   try {
    List<CommitFile> files = pullRequestService.getFiles(repository, violationCommentsToGitHubApi.getPullRequestId());
    for (CommitFile commitFile : files) {
-    changedFiles.add(new ChangedFile(commitFile.getFilename(), newArrayList(commitFile.getPatch())));
+     List<String> list = new ArrayList<>();
+     list.add(commitFile.getPatch());
+    changedFiles.add(new ChangedFile(commitFile.getFilename(), list));
    }
   } catch (IOException e) {
    LOG.error("", e);
