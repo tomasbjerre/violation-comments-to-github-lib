@@ -1,13 +1,11 @@
 package se.bjurr.violations.comments.github.lib;
 
 import static org.eclipse.egit.github.core.client.GitHubClient.createClient;
-import static se.bjurr.violations.lib.util.Optional.absent;
+import static se.bjurr.violations.comments.lib.PatchParser.findLineToComment;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.egit.github.core.CommitComment;
 import org.eclipse.egit.github.core.CommitFile;
@@ -29,34 +27,6 @@ public class GitHubCommentsProvider implements CommentsProvider {
 
  private static final String TYPE_DIFF = "TYPE_DIFF";
  private static final String TYPE_PR = "TYPE_PR";
-
- /**
-  * http://en.wikipedia.org/wiki/Diff_utility#Unified_format
-  */
- static Optional<Integer> findLineToComment(ChangedFile file, Integer lineToComment) {
-  int currentLine = -1;
-  int patchLocation = 0;
-  String patchString = file.getSpecifics().get(0);
-  for (String line : patchString.split("\n")) {
-   if (line.startsWith("@")) {
-    Matcher matcher = Pattern
-      .compile("@@\\p{IsWhite_Space}-[0-9]+(?:,[0-9]+)?\\p{IsWhite_Space}\\+([0-9]+)(?:,[0-9]+)?\\p{IsWhite_Space}@@.*")
-      .matcher(line);
-    if (!matcher.matches()) {
-     throw new IllegalStateException("Unable to parse patch line " + line + "\nFull patch: \n" + patchString);
-    }
-    currentLine = Integer.parseInt(matcher.group(1));
-   } else if (line.startsWith("+") || line.startsWith(" ")) {
-    // Added or unmodified
-    if (currentLine == lineToComment) {
-     return Optional.fromNullable(patchLocation);
-    }
-    currentLine++;
-   }
-   patchLocation++;
-  }
-  return absent();
- }
 
  private final IssueService issueSerivce;
  private final String pullRequestCommit;
@@ -98,7 +68,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
 
  @Override
  public void createSingleFileComment(ChangedFile file, Integer line, String comment) {
-  Optional<Integer> lineToComment = findLineToComment(file, line);
+  Optional<Integer> lineToComment = findLineToComment(file.getSpecifics().get(0), line);
   if (!lineToComment.isPresent()) {
    // Put comments, that are not int the diff, on line 1
    lineToComment = Optional.fromNullable(1);
@@ -173,7 +143,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
 
  @Override
  public boolean shouldComment(ChangedFile changedFile, Integer line) {
-  Optional<Integer> lineToComment = findLineToComment(changedFile, line);
+  Optional<Integer> lineToComment = findLineToComment(changedFile.getSpecifics().get(0), line);
   boolean lineNotChanged = !lineToComment.isPresent();
   boolean commentOnlyChangedContent = violationCommentsToGitHubApi.getCommentOnlyChangedContent();
   if (commentOnlyChangedContent && lineNotChanged) {
