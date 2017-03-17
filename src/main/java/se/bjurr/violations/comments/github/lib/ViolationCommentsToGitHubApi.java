@@ -50,7 +50,6 @@ public class ViolationCommentsToGitHubApi {
        "Or OAuth2Token:\n" + //
        "-D" + DEFAULT_PROP_VIOLATIONS_OAUTH2TOKEN + "=123ASDAA...");
   }
-  checkNotNull(gitHubUrl, "GitHubUrl");
   checkNotNull(pullRequestId, "PullRequestId");
   checkNotNull(repositoryName, "RepositoryName");
   checkNotNull(repositoryOwner, "RepositoryOwner");
