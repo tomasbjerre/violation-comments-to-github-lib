@@ -23,7 +23,7 @@ public class ViolationCommentsToGitHubApi {
  private String propUsername = DEFAULT_PROP_VIOLATIONS_USERNAME;
  private String propPassword = DEFAULT_PROP_VIOLATIONS_PASSWORD;
  private String propOAuth2Token = DEFAULT_PROP_VIOLATIONS_OAUTH2TOKEN;
- private String gitHubUrl = "https://api.github.com/";
+ private String gitHubUrl;
  private String oAuth2Token;
  private String username;
  private String password;
@@ -69,6 +69,9 @@ public class ViolationCommentsToGitHubApi {
  }
 
  public String getGitHubUrl() {
+   if (gitHubUrl == null || gitHubUrl.trim().isEmpty()) {
+    return "https://api.github.com/";
+  }
   return gitHubUrl;
  }
 
