@@ -40,7 +40,7 @@ repositories {
 }
 
 dependencies {
- compile 'se.bjurr.violations:violation-comments-lib:1.35'
+ compile 'se.bjurr.violations:violation-comments-lib:1.36'
  compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.5'
  testCompile 'junit:junit:4.12'
  testCompile 'org.assertj:assertj-core:2.3.0'
