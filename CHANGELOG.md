@@ -1,5 +1,173 @@
 # Changelog
 
+## Unreleased
+### No issue
+
+**Violations-lib 1.29 with reporter field**
+
+
+[715d2c6759711f0](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/715d2c6759711f0) Tomas Bjerre *2017-07-15 09:19:50*
+
+
+## 1.29
+### No issue
+
+**URL in Klocwork**
+
+
+[3e8acba8e1db7c4](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/3e8acba8e1db7c4) Tomas Bjerre *2017-04-11 18:20:11*
+
+
+## 1.28
+### No issue
+
+**SbtScalac**
+
+
+[35f2a81d26adbde](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/35f2a81d26adbde) Tomas Bjerre *2017-04-10 18:22:09*
+
+
+## 1.27
+### No issue
+
+**Klocwork parser**
+
+
+[4eeceb4bf8d0d21](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/4eeceb4bf8d0d21) Tomas Bjerre *2017-03-30 17:31:08*
+
+
+## 1.26
+### No issue
+
+**Reducing logging**
+
+
+[58fb871983a9c35](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/58fb871983a9c35) Tomas Bjerre *2017-03-17 17:32:19*
+
+
+## 1.25
+### No issue
+
+**Allowing Github url to be empty**
+
+
+[a5a67eebd46e1af](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/a5a67eebd46e1af) Tomas Bjerre *2017-03-17 16:38:51*
+
+
+## 1.24
+### No issue
+
+**Defaulting to api.github.com and adding filtering util**
+
+
+[025c9d0ea306c54](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/025c9d0ea306c54) Tomas Bjerre *2017-03-17 14:23:14*
+
+
+## 1.23
+### No issue
+
+**Commenting with file name from server**
+
+
+[24341601aea3897](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/24341601aea3897) Tomas Bjerre *2017-02-19 21:22:24*
+
+**Moving patch parser to comments lib**
+
+
+[0b07c7ec0959034](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/0b07c7ec0959034) Tomas Bjerre *2017-02-19 08:04:37*
+
+
+## 1.22
+### No issue
+
+**CLang, RubyCop, GoLint, GoVet, PHPMD, PHPCS**
+
+
+[0bfb81c572479cc](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/0bfb81c572479cc) Tomas Bjerre *2017-02-18 21:50:27*
+
+
+## 1.21
+### No issue
+
+**Finding findbugsmessages and correcting codenarc**
+
+
+[92c61708cd0eab1](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/92c61708cd0eab1) Tomas Bjerre *2017-02-16 20:55:01*
+
+
+## 1.20
+### No issue
+
+**Adding MyPy and PyDocStyle parsers**
+
+
+[a9e1b1ede2123fb](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/a9e1b1ede2123fb) Tomas Bjerre *2017-02-06 17:46:35*
+
+
+## 1.19
+### No issue
+
+**Codenarc, Cpd, Gendarme, Jcereport, Simian, ZptLint**
+
+
+[b5a66cddf0f3831](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/b5a66cddf0f3831) Tomas Bjerre *2016-11-06 06:55:42*
+
+
+## 1.18
+### No issue
+
+**Refactoring**
+
+
+[d29e698223eeb5a](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/d29e698223eeb5a) Tomas Bjerre *2016-11-01 17:40:55*
+
+
+## 1.17
+### No issue
+
+**Moving multiple/single commenting logic to lib**
+
+
+[070670315bca8de](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/070670315bca8de) Tomas Bjerre *2016-11-01 16:59:02*
+
+
+## 1.16
+### No issue
+
+**Including only changed parts in big comment**
+
+
+[b9d349897f48815](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/b9d349897f48815) Tomas Bjerre *2016-10-31 21:10:59*
+
+**doc**
+
+
+[d1483c2c31991b3](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/d1483c2c31991b3) Tomas Bjerre *2016-10-27 17:27:56*
+
+
+## 1.15
+### No issue
+
+**Markdown in comments and not commenting unchanged files**
+
+
+[ca745844b5416c0](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/ca745844b5416c0) Tomas Bjerre *2016-10-27 17:03:29*
+
+
+## 1.14
+### No issue
+
+**Handling CSS Lint reports without line or evidence**
+
+
+[ae1e277ff9e7bea](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/ae1e277ff9e7bea) Tomas Bjerre *2016-10-26 15:52:33*
+
+**doc**
+
+
+[e7661ecb5f754aa](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/e7661ecb5f754aa) Tomas Bjerre *2016-10-25 18:45:40*
+
+
 ## 1.13
 ### No issue
 
@@ -142,14 +310,5 @@
 
 
 [ce275bf022312e3](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/ce275bf022312e3) Tomas Bjerre *2016-03-04 19:02:56*
-
-
-## 1.0
-### No issue
-
-**Initial**
-
-
-[40e3f16f9fe166a](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/40e3f16f9fe166a) Tomas Bjerre *2016-03-04 18:21:49*
 
 
