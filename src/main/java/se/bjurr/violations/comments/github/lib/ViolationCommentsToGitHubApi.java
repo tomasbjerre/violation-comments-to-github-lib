@@ -35,6 +35,7 @@ public class ViolationCommentsToGitHubApi {
  private boolean createCommentWithAllSingleFileComments = false;
 
  private boolean commentOnlyChangedContent = false;
+private boolean keepOldComments = false;
 
  private ViolationCommentsToGitHubApi() {
 
@@ -125,7 +126,7 @@ public class ViolationCommentsToGitHubApi {
  public void toPullRequest() throws Exception {
   populateFromEnvironmentVariables();
   checkState();
-  CommentsProvider commentsProvider = new GitHubCommentsProvider(this);
+  final CommentsProvider commentsProvider = new GitHubCommentsProvider(this);
   createComments(commentsProvider, violations, MAX_VALUE);
  }
 
@@ -196,4 +197,11 @@ public class ViolationCommentsToGitHubApi {
   this.violations = violations;
   return this;
  }
+	public ViolationCommentsToGitHubApi setKeepOldComments(boolean keepOldComments) {
+		this.keepOldComments = keepOldComments;
+		return this;
+	}
+public boolean getKeepOldComments() {
+	return keepOldComments ;
+}
 }

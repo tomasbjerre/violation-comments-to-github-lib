@@ -38,7 +38,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
  private final ViolationCommentsToGitHubApi violationCommentsToGitHubApi;
 
  public GitHubCommentsProvider(ViolationCommentsToGitHubApi violationCommentsToGitHubApi) {
-  GitHubClient gitHubClient = createClient(violationCommentsToGitHubApi.getGitHubUrl());
+  final GitHubClient gitHubClient = createClient(violationCommentsToGitHubApi.getGitHubUrl());
   if (violationCommentsToGitHubApi.getOAuth2Token() != null) {
    gitHubClient.setOAuth2Token(violationCommentsToGitHubApi.getOAuth2Token());
   } else if (violationCommentsToGitHubApi.getUsername() != null && violationCommentsToGitHubApi.getPassword() != null) {
@@ -51,7 +51,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
   List<RepositoryCommit> commits = null;
   try {
    commits = pullRequestService.getCommits(repository, violationCommentsToGitHubApi.getPullRequestId());
-  } catch (IOException e) {
+  } catch (final IOException e) {
    throw new RuntimeException(e);
   }
   pullRequestCommit = commits.get(commits.size() - 1).getSha();
@@ -62,7 +62,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
  public void createCommentWithAllSingleFileComments(String comment) {
   try {
    issueSerivce.createComment(repository, violationCommentsToGitHubApi.getPullRequestId(), comment);
-  } catch (IOException e) {
+  } catch (final IOException e) {
    LOG.error("", e);
   }
  }
@@ -75,13 +75,13 @@ public class GitHubCommentsProvider implements CommentsProvider {
    lineToComment = Optional.fromNullable(1);
   }
   try {
-   CommitComment commitComment = new CommitComment();
+   final CommitComment commitComment = new CommitComment();
    commitComment.setBody(comment);
    commitComment.setPath(file.getFilename());
    commitComment.setCommitId(pullRequestCommit);
    commitComment.setPosition(lineToComment.get());
    pullRequestService.createComment(repository, violationCommentsToGitHubApi.getPullRequestId(), commitComment);
-  } catch (IOException e) {
+  } catch (final IOException e) {
    LOG.error(//
      "File: \"" + file + "\" \n" + //
        "Line: \"" + line + "\" \n" + //
@@ -93,18 +93,18 @@ public class GitHubCommentsProvider implements CommentsProvider {
 
  @Override
  public List<Comment> getComments() {
-  List<Comment> comments = new ArrayList<>();
+  final List<Comment> comments = new ArrayList<>();
   try {
-   List<String> specifics = new ArrayList<>();
-   for (CommitComment commitComment : pullRequestService.getComments(repository,
+   final List<String> specifics = new ArrayList<>();
+   for (final CommitComment commitComment : pullRequestService.getComments(repository,
      violationCommentsToGitHubApi.getPullRequestId())) {
     comments.add(new Comment(Long.toString(commitComment.getId()), commitComment.getBody(), TYPE_DIFF, specifics));
    }
-   for (org.eclipse.egit.github.core.Comment comment : issueSerivce.getComments(repository,
+   for (final org.eclipse.egit.github.core.Comment comment : issueSerivce.getComments(repository,
      violationCommentsToGitHubApi.getPullRequestId())) {
     comments.add(new Comment(Long.toString(comment.getId()), comment.getBody(), TYPE_PR, specifics));
    }
-  } catch (Exception e) {
+  } catch (final Exception e) {
    LOG.error("", e);
   }
   return comments;
@@ -112,15 +112,15 @@ public class GitHubCommentsProvider implements CommentsProvider {
 
  @Override
  public List<ChangedFile> getFiles() {
-  List<ChangedFile> changedFiles = new ArrayList<>();
+  final List<ChangedFile> changedFiles = new ArrayList<>();
   try {
-   List<CommitFile> files = pullRequestService.getFiles(repository, violationCommentsToGitHubApi.getPullRequestId());
-   for (CommitFile commitFile : files) {
-     List<String> list = new ArrayList<>();
+   final List<CommitFile> files = pullRequestService.getFiles(repository, violationCommentsToGitHubApi.getPullRequestId());
+   for (final CommitFile commitFile : files) {
+     final List<String> list = new ArrayList<>();
      list.add(commitFile.getPatch());
     changedFiles.add(new ChangedFile(commitFile.getFilename(), list));
    }
-  } catch (IOException e) {
+  } catch (final IOException e) {
    LOG.error("", e);
   }
   return changedFiles;
@@ -128,15 +128,15 @@ public class GitHubCommentsProvider implements CommentsProvider {
 
  @Override
  public void removeComments(List<Comment> comments) {
-  for (Comment comment : comments) {
+  for (final Comment comment : comments) {
    try {
-    Long commentId = Long.valueOf(comment.getIdentifier());
+    final Long commentId = Long.valueOf(comment.getIdentifier());
     if (comment.getType().equals(TYPE_DIFF)) {
      pullRequestService.deleteComment(repository, commentId);
     } else {
      issueSerivce.deleteComment(repository, commentId);
     }
-   } catch (Exception e) {
+   } catch (final Exception e) {
     LOG.error("", e);
    }
   }
@@ -144,9 +144,9 @@ public class GitHubCommentsProvider implements CommentsProvider {
 
  @Override
  public boolean shouldComment(ChangedFile changedFile, Integer line) {
-  Optional<Integer> lineToComment = findLineToComment(changedFile.getSpecifics().get(0), line);
-  boolean lineNotChanged = !lineToComment.isPresent();
-  boolean commentOnlyChangedContent = violationCommentsToGitHubApi.getCommentOnlyChangedContent();
+  final Optional<Integer> lineToComment = findLineToComment(changedFile.getSpecifics().get(0), line);
+  final boolean lineNotChanged = !lineToComment.isPresent();
+  final boolean commentOnlyChangedContent = violationCommentsToGitHubApi.getCommentOnlyChangedContent();
   if (commentOnlyChangedContent && lineNotChanged) {
    return false;
   }
@@ -167,4 +167,9 @@ public class GitHubCommentsProvider implements CommentsProvider {
  public Optional<String> findCommentFormat(ChangedFile changedFile, Violation violation) {
    return Optional.absent();
  }
+
+@Override
+public boolean shouldKeepOldComments() {
+	return violationCommentsToGitHubApi.getKeepOldComments();
+}
 }

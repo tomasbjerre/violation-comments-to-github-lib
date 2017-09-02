@@ -3,10 +3,31 @@
 ## Unreleased
 ### No issue
 
+**Keeping comments and adjusting checkstyle**
+
+ * Checkstyle now allows empty source attribute. 
+ * Comments can optionaly be kept and not removed when new comments are added. 
+ * Will no longer re-create identical comments. 
+
+[cbdd48fe3546934](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/cbdd48fe3546934) Tomas Bjerre *2017-09-02 09:07:28*
+
+
+## 1.31
+### No issue
+
+**Checking for null in API-calls**
+
+
+[728c079061c4ed5](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/728c079061c4ed5) Tomas Bjerre *2017-08-11 10:02:45*
+
+
+## 1.30
+### No issue
+
 **Violations-lib 1.29 with reporter field**
 
 
-[715d2c6759711f0](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/715d2c6759711f0) Tomas Bjerre *2017-07-15 09:19:50*
+[124c210212a074e](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/124c210212a074e) Tomas Bjerre *2017-07-15 09:20:30*
 
 
 ## 1.29
