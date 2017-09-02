@@ -3,13 +3,22 @@
 ## Unreleased
 ### No issue
 
+**Travis with JDK8**
+
+
+[d679425816e7c2a](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/d679425816e7c2a) Tomas Bjerre *2017-09-02 11:33:35*
+
+
+## 1.32
+### No issue
+
 **Keeping comments and adjusting checkstyle**
 
  * Checkstyle now allows empty source attribute. 
  * Comments can optionaly be kept and not removed when new comments are added. 
  * Will no longer re-create identical comments. 
 
-[cbdd48fe3546934](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/cbdd48fe3546934) Tomas Bjerre *2017-09-02 09:07:28*
+[de3cf356ed087fe](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/de3cf356ed087fe) Tomas Bjerre *2017-09-02 09:08:59*
 
 
 ## 1.31

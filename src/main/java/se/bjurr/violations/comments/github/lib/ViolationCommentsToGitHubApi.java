@@ -7,201 +7,212 @@ import static se.bjurr.violations.lib.util.Utils.emptyToNull;
 import static se.bjurr.violations.lib.util.Utils.firstNonNull;
 
 import java.util.List;
-
 import se.bjurr.violations.comments.lib.model.CommentsProvider;
 import se.bjurr.violations.lib.model.Violation;
 
 public class ViolationCommentsToGitHubApi {
- public static final String DEFAULT_PROP_VIOLATIONS_OAUTH2TOKEN = "VIOLATIONS_OAUTH2TOKEN";
- public static final String DEFAULT_PROP_VIOLATIONS_USERNAME = "VIOLATIONS_USERNAME";
- public static final String DEFAULT_PROP_VIOLATIONS_PASSWORD = "VIOLATIONS_PASSWORD";
+  public static final String DEFAULT_PROP_VIOLATIONS_OAUTH2TOKEN = "VIOLATIONS_OAUTH2TOKEN";
+  public static final String DEFAULT_PROP_VIOLATIONS_USERNAME = "VIOLATIONS_USERNAME";
+  public static final String DEFAULT_PROP_VIOLATIONS_PASSWORD = "VIOLATIONS_PASSWORD";
 
- public static ViolationCommentsToGitHubApi violationCommentsToGitHubApi() {
-  return new ViolationCommentsToGitHubApi();
- }
-
- private String propUsername = DEFAULT_PROP_VIOLATIONS_USERNAME;
- private String propPassword = DEFAULT_PROP_VIOLATIONS_PASSWORD;
- private String propOAuth2Token = DEFAULT_PROP_VIOLATIONS_OAUTH2TOKEN;
- private String gitHubUrl;
- private String oAuth2Token;
- private String username;
- private String password;
- private String repositoryOwner;
- private String repositoryName;
- private int pullRequestId;
- private List<Violation> violations;
- private boolean createSingleFileComments = true;
- private boolean createCommentWithAllSingleFileComments = false;
-
- private boolean commentOnlyChangedContent = false;
-private boolean keepOldComments = false;
-
- private ViolationCommentsToGitHubApi() {
-
- }
-
- private void checkState() {
-  if (oAuth2Token == null //
-    && (username == null || password == null)) {
-   throw new IllegalStateException(
-     "User and Password, or OAuth2 token, must be set! They can be set with the API or by setting properties.\n" + //
-       "Username/password:\n" + //
-       "-D" + DEFAULT_PROP_VIOLATIONS_USERNAME + "=theuser -D" + DEFAULT_PROP_VIOLATIONS_PASSWORD + "=thepassword\n" + //
-       "Or OAuth2Token:\n" + //
-       "-D" + DEFAULT_PROP_VIOLATIONS_OAUTH2TOKEN + "=123ASDAA...");
+  public static ViolationCommentsToGitHubApi violationCommentsToGitHubApi() {
+    return new ViolationCommentsToGitHubApi();
   }
-  checkNotNull(pullRequestId, "PullRequestId");
-  checkNotNull(repositoryName, "RepositoryName");
-  checkNotNull(repositoryOwner, "RepositoryOwner");
- }
 
- public boolean getCommentOnlyChangedContent() {
-  return commentOnlyChangedContent;
- }
+  private String propUsername = DEFAULT_PROP_VIOLATIONS_USERNAME;
+  private String propPassword = DEFAULT_PROP_VIOLATIONS_PASSWORD;
+  private String propOAuth2Token = DEFAULT_PROP_VIOLATIONS_OAUTH2TOKEN;
+  private String gitHubUrl;
+  private String oAuth2Token;
+  private String username;
+  private String password;
+  private String repositoryOwner;
+  private String repositoryName;
+  private int pullRequestId;
+  private List<Violation> violations;
+  private boolean createSingleFileComments = true;
+  private boolean createCommentWithAllSingleFileComments = false;
 
- public boolean getCreateCommentWithAllSingleFileComments() {
-  return createCommentWithAllSingleFileComments;
- }
+  private boolean commentOnlyChangedContent = false;
+  private boolean keepOldComments = false;
 
- public boolean getCreateSingleFileComments() {
-  return createSingleFileComments;
- }
+  private ViolationCommentsToGitHubApi() {}
 
- public String getGitHubUrl() {
-   if (gitHubUrl == null || gitHubUrl.trim().isEmpty()) {
-    return "https://api.github.com/";
+  private void checkState() {
+    if (oAuth2Token == null //
+        && (username == null || password == null)) {
+      throw new IllegalStateException(
+          "User and Password, or OAuth2 token, must be set! They can be set with the API or by setting properties.\n"
+              + //
+              "Username/password:\n"
+              + //
+              "-D"
+              + DEFAULT_PROP_VIOLATIONS_USERNAME
+              + "=theuser -D"
+              + DEFAULT_PROP_VIOLATIONS_PASSWORD
+              + "=thepassword\n"
+              + //
+              "Or OAuth2Token:\n"
+              + //
+              "-D"
+              + DEFAULT_PROP_VIOLATIONS_OAUTH2TOKEN
+              + "=123ASDAA...");
+    }
+    checkNotNull(pullRequestId, "PullRequestId");
+    checkNotNull(repositoryName, "RepositoryName");
+    checkNotNull(repositoryOwner, "RepositoryOwner");
   }
-  return gitHubUrl;
- }
 
- public String getOAuth2Token() {
-  return oAuth2Token;
- }
-
- public String getPassword() {
-  return password;
- }
-
- public String getPropOAuth2Token() {
-  return propOAuth2Token;
- }
-
- public String getPropPassword() {
-  return propPassword;
- }
-
- public String getPropUsername() {
-  return propUsername;
- }
-
- public int getPullRequestId() {
-  return pullRequestId;
- }
-
- public String getRepositoryName() {
-  return repositoryName;
- }
-
- public String getRepositoryOwner() {
-  return repositoryOwner;
- }
-
- public String getUsername() {
-  return username;
- }
-
- private void populateFromEnvironmentVariables() {
-  if (System.getProperty(propUsername) != null) {
-   username = firstNonNull(username, System.getProperty(propUsername));
+  public boolean getCommentOnlyChangedContent() {
+    return commentOnlyChangedContent;
   }
-  if (System.getProperty(propPassword) != null) {
-   password = firstNonNull(password, System.getProperty(propPassword));
+
+  public boolean getCreateCommentWithAllSingleFileComments() {
+    return createCommentWithAllSingleFileComments;
   }
-  if (System.getProperty(propOAuth2Token) != null) {
-   oAuth2Token = firstNonNull(oAuth2Token, System.getProperty(propOAuth2Token));
+
+  public boolean getCreateSingleFileComments() {
+    return createSingleFileComments;
   }
- }
 
- public void toPullRequest() throws Exception {
-  populateFromEnvironmentVariables();
-  checkState();
-  final CommentsProvider commentsProvider = new GitHubCommentsProvider(this);
-  createComments(commentsProvider, violations, MAX_VALUE);
- }
+  public String getGitHubUrl() {
+    if (gitHubUrl == null || gitHubUrl.trim().isEmpty()) {
+      return "https://api.github.com/";
+    }
+    return gitHubUrl;
+  }
 
- public ViolationCommentsToGitHubApi withCommentOnlyChangedContent(boolean commentOnlyChangedContent) {
-  this.commentOnlyChangedContent = commentOnlyChangedContent;
-  return this;
- }
+  public String getOAuth2Token() {
+    return oAuth2Token;
+  }
 
- public ViolationCommentsToGitHubApi withCreateCommentWithAllSingleFileComments(
-   boolean createCommentWithAllSingleFileComments) {
-  this.createCommentWithAllSingleFileComments = createCommentWithAllSingleFileComments;
-  return this;
- }
+  public String getPassword() {
+    return password;
+  }
 
- public ViolationCommentsToGitHubApi withCreateSingleFileComments(boolean createSingleFileComments) {
-  this.createSingleFileComments = createSingleFileComments;
-  return this;
- }
+  public String getPropOAuth2Token() {
+    return propOAuth2Token;
+  }
 
- public ViolationCommentsToGitHubApi withGitHubUrl(String gitHubUrl) {
-  this.gitHubUrl = gitHubUrl;
-  return this;
- }
+  public String getPropPassword() {
+    return propPassword;
+  }
 
- public ViolationCommentsToGitHubApi withoAuth2Token(String oAuth2Token) {
-  this.oAuth2Token = emptyToNull(oAuth2Token);
-  return this;
- }
+  public String getPropUsername() {
+    return propUsername;
+  }
 
- public ViolationCommentsToGitHubApi withPassword(String password) {
-  this.password = password;
-  return this;
- }
+  public int getPullRequestId() {
+    return pullRequestId;
+  }
 
- public void withPropOAuth2Token(String envOAuth2Token) {
-  propOAuth2Token = envOAuth2Token;
- }
+  public String getRepositoryName() {
+    return repositoryName;
+  }
 
- public void withPropPassword(String envPassword) {
-  propPassword = envPassword;
- }
+  public String getRepositoryOwner() {
+    return repositoryOwner;
+  }
 
- public void withPropUsername(String envUsername) {
-  propUsername = envUsername;
- }
+  public String getUsername() {
+    return username;
+  }
 
- public ViolationCommentsToGitHubApi withPullRequestId(int pullRequestId) {
-  this.pullRequestId = pullRequestId;
-  return this;
- }
+  private void populateFromEnvironmentVariables() {
+    if (System.getProperty(propUsername) != null) {
+      username = firstNonNull(username, System.getProperty(propUsername));
+    }
+    if (System.getProperty(propPassword) != null) {
+      password = firstNonNull(password, System.getProperty(propPassword));
+    }
+    if (System.getProperty(propOAuth2Token) != null) {
+      oAuth2Token = firstNonNull(oAuth2Token, System.getProperty(propOAuth2Token));
+    }
+  }
 
- public ViolationCommentsToGitHubApi withRepositoryName(String repositoryName) {
-  this.repositoryName = emptyToNull(repositoryName);
-  return this;
- }
+  public void toPullRequest() throws Exception {
+    populateFromEnvironmentVariables();
+    checkState();
+    final CommentsProvider commentsProvider = new GitHubCommentsProvider(this);
+    createComments(commentsProvider, violations, MAX_VALUE);
+  }
 
- public ViolationCommentsToGitHubApi withRepositoryOwner(String repositoryOwner) {
-  this.repositoryOwner = emptyToNull(repositoryOwner);
-  return this;
- }
+  public ViolationCommentsToGitHubApi withCommentOnlyChangedContent(
+      boolean commentOnlyChangedContent) {
+    this.commentOnlyChangedContent = commentOnlyChangedContent;
+    return this;
+  }
 
- public ViolationCommentsToGitHubApi withUsername(String username) {
-  this.username = username;
-  return this;
- }
+  public ViolationCommentsToGitHubApi withCreateCommentWithAllSingleFileComments(
+      boolean createCommentWithAllSingleFileComments) {
+    this.createCommentWithAllSingleFileComments = createCommentWithAllSingleFileComments;
+    return this;
+  }
 
- public ViolationCommentsToGitHubApi withViolations(List<Violation> violations) {
-  this.violations = violations;
-  return this;
- }
-	public ViolationCommentsToGitHubApi setKeepOldComments(boolean keepOldComments) {
-		this.keepOldComments = keepOldComments;
-		return this;
-	}
-public boolean getKeepOldComments() {
-	return keepOldComments ;
-}
+  public ViolationCommentsToGitHubApi withCreateSingleFileComments(
+      boolean createSingleFileComments) {
+    this.createSingleFileComments = createSingleFileComments;
+    return this;
+  }
+
+  public ViolationCommentsToGitHubApi withGitHubUrl(String gitHubUrl) {
+    this.gitHubUrl = gitHubUrl;
+    return this;
+  }
+
+  public ViolationCommentsToGitHubApi withoAuth2Token(String oAuth2Token) {
+    this.oAuth2Token = emptyToNull(oAuth2Token);
+    return this;
+  }
+
+  public ViolationCommentsToGitHubApi withPassword(String password) {
+    this.password = password;
+    return this;
+  }
+
+  public void withPropOAuth2Token(String envOAuth2Token) {
+    propOAuth2Token = envOAuth2Token;
+  }
+
+  public void withPropPassword(String envPassword) {
+    propPassword = envPassword;
+  }
+
+  public void withPropUsername(String envUsername) {
+    propUsername = envUsername;
+  }
+
+  public ViolationCommentsToGitHubApi withPullRequestId(int pullRequestId) {
+    this.pullRequestId = pullRequestId;
+    return this;
+  }
+
+  public ViolationCommentsToGitHubApi withRepositoryName(String repositoryName) {
+    this.repositoryName = emptyToNull(repositoryName);
+    return this;
+  }
+
+  public ViolationCommentsToGitHubApi withRepositoryOwner(String repositoryOwner) {
+    this.repositoryOwner = emptyToNull(repositoryOwner);
+    return this;
+  }
+
+  public ViolationCommentsToGitHubApi withUsername(String username) {
+    this.username = username;
+    return this;
+  }
+
+  public ViolationCommentsToGitHubApi withViolations(List<Violation> violations) {
+    this.violations = violations;
+    return this;
+  }
+
+  public ViolationCommentsToGitHubApi withKeepOldComments(boolean keepOldComments) {
+    this.keepOldComments = keepOldComments;
+    return this;
+  }
+
+  public boolean getKeepOldComments() {
+    return keepOldComments;
+  }
 }
