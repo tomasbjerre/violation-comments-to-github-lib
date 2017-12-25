@@ -162,7 +162,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
         } else {
           issueSerivce.deleteComment(repository, commentId);
         }
-      } catch (final Exception e) {
+      } catch (final Throwable e) {
         LOG.error("", e);
       }
     }
