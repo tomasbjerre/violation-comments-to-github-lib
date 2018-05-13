@@ -2,6 +2,7 @@ package se.bjurr.violations.comments.github.lib;
 
 import static java.lang.Integer.MAX_VALUE;
 import static se.bjurr.violations.comments.lib.CommentsCreator.createComments;
+import static se.bjurr.violations.lib.util.Optional.fromNullable;
 import static se.bjurr.violations.lib.util.Utils.checkNotNull;
 import static se.bjurr.violations.lib.util.Utils.emptyToNull;
 import static se.bjurr.violations.lib.util.Utils.firstNonNull;
@@ -9,6 +10,7 @@ import static se.bjurr.violations.lib.util.Utils.firstNonNull;
 import java.util.List;
 import se.bjurr.violations.comments.lib.model.CommentsProvider;
 import se.bjurr.violations.lib.model.Violation;
+import se.bjurr.violations.lib.util.Optional;
 
 public class ViolationCommentsToGitHubApi {
   public static final String DEFAULT_PROP_VIOLATIONS_OAUTH2TOKEN = "VIOLATIONS_OAUTH2TOKEN";
@@ -35,6 +37,7 @@ public class ViolationCommentsToGitHubApi {
 
   private boolean commentOnlyChangedContent = false;
   private boolean keepOldComments = false;
+  private String commentTemplate;
 
   private ViolationCommentsToGitHubApi() {}
 
@@ -138,81 +141,90 @@ public class ViolationCommentsToGitHubApi {
   }
 
   public ViolationCommentsToGitHubApi withCommentOnlyChangedContent(
-      boolean commentOnlyChangedContent) {
+      final boolean commentOnlyChangedContent) {
     this.commentOnlyChangedContent = commentOnlyChangedContent;
     return this;
   }
 
   public ViolationCommentsToGitHubApi withCreateCommentWithAllSingleFileComments(
-      boolean createCommentWithAllSingleFileComments) {
+      final boolean createCommentWithAllSingleFileComments) {
     this.createCommentWithAllSingleFileComments = createCommentWithAllSingleFileComments;
     return this;
   }
 
   public ViolationCommentsToGitHubApi withCreateSingleFileComments(
-      boolean createSingleFileComments) {
+      final boolean createSingleFileComments) {
     this.createSingleFileComments = createSingleFileComments;
     return this;
   }
 
-  public ViolationCommentsToGitHubApi withGitHubUrl(String gitHubUrl) {
+  public ViolationCommentsToGitHubApi withGitHubUrl(final String gitHubUrl) {
     this.gitHubUrl = gitHubUrl;
     return this;
   }
 
-  public ViolationCommentsToGitHubApi withoAuth2Token(String oAuth2Token) {
+  public ViolationCommentsToGitHubApi withoAuth2Token(final String oAuth2Token) {
     this.oAuth2Token = emptyToNull(oAuth2Token);
     return this;
   }
 
-  public ViolationCommentsToGitHubApi withPassword(String password) {
+  public ViolationCommentsToGitHubApi withPassword(final String password) {
     this.password = password;
     return this;
   }
 
-  public void withPropOAuth2Token(String envOAuth2Token) {
+  public void withPropOAuth2Token(final String envOAuth2Token) {
     propOAuth2Token = envOAuth2Token;
   }
 
-  public void withPropPassword(String envPassword) {
+  public void withPropPassword(final String envPassword) {
     propPassword = envPassword;
   }
 
-  public void withPropUsername(String envUsername) {
+  public void withPropUsername(final String envUsername) {
     propUsername = envUsername;
   }
 
-  public ViolationCommentsToGitHubApi withPullRequestId(int pullRequestId) {
+  public ViolationCommentsToGitHubApi withPullRequestId(final int pullRequestId) {
     this.pullRequestId = pullRequestId;
     return this;
   }
 
-  public ViolationCommentsToGitHubApi withRepositoryName(String repositoryName) {
+  public ViolationCommentsToGitHubApi withRepositoryName(final String repositoryName) {
     this.repositoryName = emptyToNull(repositoryName);
     return this;
   }
 
-  public ViolationCommentsToGitHubApi withRepositoryOwner(String repositoryOwner) {
+  public ViolationCommentsToGitHubApi withRepositoryOwner(final String repositoryOwner) {
     this.repositoryOwner = emptyToNull(repositoryOwner);
     return this;
   }
 
-  public ViolationCommentsToGitHubApi withUsername(String username) {
+  public ViolationCommentsToGitHubApi withUsername(final String username) {
     this.username = username;
     return this;
   }
 
-  public ViolationCommentsToGitHubApi withViolations(List<Violation> violations) {
+  public ViolationCommentsToGitHubApi withViolations(final List<Violation> violations) {
     this.violations = violations;
     return this;
   }
 
-  public ViolationCommentsToGitHubApi withKeepOldComments(boolean keepOldComments) {
+  public ViolationCommentsToGitHubApi withKeepOldComments(final boolean keepOldComments) {
     this.keepOldComments = keepOldComments;
     return this;
   }
 
   public boolean getKeepOldComments() {
     return keepOldComments;
+  }
+
+  public ViolationCommentsToGitHubApi withCommentTemplate(final String commentTemplate) {
+    this.commentTemplate = commentTemplate;
+    return this;
+  }
+
+  public Optional<String> findCommentTemplate() {
+    return fromNullable(commentTemplate);
   }
 }

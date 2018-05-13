@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import se.bjurr.violations.comments.lib.model.ChangedFile;
 import se.bjurr.violations.comments.lib.model.Comment;
 import se.bjurr.violations.comments.lib.model.CommentsProvider;
-import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.util.Optional;
 
 public class GitHubCommentsProvider implements CommentsProvider {
@@ -35,7 +34,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
 
   private final ViolationCommentsToGitHubApi violationCommentsToGitHubApi;
 
-  public GitHubCommentsProvider(ViolationCommentsToGitHubApi violationCommentsToGitHubApi) {
+  public GitHubCommentsProvider(final ViolationCommentsToGitHubApi violationCommentsToGitHubApi) {
     final GitHubClient gitHubClient = createClient(violationCommentsToGitHubApi.getGitHubUrl());
     if (violationCommentsToGitHubApi.getOAuth2Token() != null) {
       gitHubClient.setOAuth2Token(violationCommentsToGitHubApi.getOAuth2Token());
@@ -63,7 +62,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
   }
 
   @Override
-  public void createCommentWithAllSingleFileComments(String comment) {
+  public void createCommentWithAllSingleFileComments(final String comment) {
     try {
       issueSerivce.createComment(
           repository, violationCommentsToGitHubApi.getPullRequestId(), comment);
@@ -73,7 +72,8 @@ public class GitHubCommentsProvider implements CommentsProvider {
   }
 
   @Override
-  public void createSingleFileComment(ChangedFile file, Integer line, String comment) {
+  public void createSingleFileComment(
+      final ChangedFile file, final Integer line, final String comment) {
     Optional<Integer> lineToComment = findLineToComment(file.getSpecifics().get(0), line);
     if (!lineToComment.isPresent()) {
       // Put comments, that are not int the diff, on line 1
@@ -153,7 +153,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
   }
 
   @Override
-  public void removeComments(List<Comment> comments) {
+  public void removeComments(final List<Comment> comments) {
     for (final Comment comment : comments) {
       try {
         final Long commentId = Long.valueOf(comment.getIdentifier());
@@ -169,7 +169,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
   }
 
   @Override
-  public boolean shouldComment(ChangedFile changedFile, Integer line) {
+  public boolean shouldComment(final ChangedFile changedFile, final Integer line) {
     final Optional<Integer> lineToComment =
         findLineToComment(changedFile.getSpecifics().get(0), line);
     final boolean lineNotChanged = !lineToComment.isPresent();
@@ -192,12 +192,12 @@ public class GitHubCommentsProvider implements CommentsProvider {
   }
 
   @Override
-  public Optional<String> findCommentFormat(ChangedFile changedFile, Violation violation) {
-    return Optional.absent();
+  public boolean shouldKeepOldComments() {
+    return violationCommentsToGitHubApi.getKeepOldComments();
   }
 
   @Override
-  public boolean shouldKeepOldComments() {
-    return violationCommentsToGitHubApi.getKeepOldComments();
+  public Optional<String> findCommentTemplate() {
+    return Optional.absent();
   }
 }
