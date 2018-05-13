@@ -6,6 +6,7 @@ import static se.bjurr.violations.comments.lib.PatchParser.findLineToComment;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.eclipse.egit.github.core.CommitComment;
 import org.eclipse.egit.github.core.CommitFile;
 import org.eclipse.egit.github.core.RepositoryCommit;
@@ -15,6 +16,7 @@ import org.eclipse.egit.github.core.service.IssueService;
 import org.eclipse.egit.github.core.service.PullRequestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import se.bjurr.violations.comments.lib.model.ChangedFile;
 import se.bjurr.violations.comments.lib.model.Comment;
 import se.bjurr.violations.comments.lib.model.CommentsProvider;
@@ -198,6 +200,6 @@ public class GitHubCommentsProvider implements CommentsProvider {
 
   @Override
   public Optional<String> findCommentTemplate() {
-    return Optional.absent();
+    return violationCommentsToGitHubApi.findCommentTemplate();
   }
 }
