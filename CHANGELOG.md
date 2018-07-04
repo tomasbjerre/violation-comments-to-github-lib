@@ -1,7 +1,157 @@
-# Changelog
+
+ # Violation comments to github lib changelog
+
+Changelog of Violation comments to github lib.
 
 ## Unreleased
 ### No issue
+
+**GCC, ARM GCC and Doxygen**
+
+
+[09a179c63c0ea4f](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/09a179c63c0ea4f) Tomas Bjerre *2018-07-04 18:19:40*
+
+
+## 1.49
+### No issue
+
+**Bumping version to fix bintray problems**
+
+
+[06d21cc072e1009](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/06d21cc072e1009) Tomas Bjerre *2018-05-13 08:26:22*
+
+**Custom template**
+
+
+[8b97827116fb751](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/8b97827116fb751) Tomas Bjerre *2018-05-13 08:22:53*
+
+**Custom template**
+
+
+[23c9d02736e8c3a](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/23c9d02736e8c3a) Tomas Bjerre *2018-05-13 08:21:28*
+
+
+## 1.46
+### No issue
+
+**Bumping version to fix release**
+
+
+[6ed74223743e37c](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/6ed74223743e37c) Tomas Bjerre *2018-02-13 19:18:26*
+
+**PCLint**
+
+
+[3493b85798ef835](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/3493b85798ef835) Tomas Bjerre *2018-02-13 19:13:10*
+
+
+## 1.44
+### No issue
+
+**Google error-prone**
+
+
+[eabe959005e4b7d](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/eabe959005e4b7d) Tomas Bjerre *2018-01-14 11:49:04*
+
+
+## 1.43
+### No issue
+
+**Relocating to correct Java identifier**
+
+
+[1b75252349c6cfb](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/1b75252349c6cfb) Tomas Bjerre *2017-12-31 11:45:26*
+
+
+## 1.42
+### No issue
+
+**Fixing encoding issues**
+
+
+[3fa1051c9501265](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/3fa1051c9501265) Tomas Bjerre *2017-12-25 19:37:46*
+
+**Avoiding catch of Exception**
+
+
+[09ef086bbf5c463](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/09ef086bbf5c463) Tomas Bjerre *2017-12-25 16:00:20*
+
+
+## 1.41
+### No issue
+
+**Bumping version to fix faulty release**
+
+
+[2a53e4c1357ceef](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/2a53e4c1357ceef) Tomas Bjerre *2017-12-22 18:52:53*
+
+
+## 1.40
+### No issue
+
+**Bumping version to fix faulty release**
+
+
+[2ffd2cb2dabbd59](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/2ffd2cb2dabbd59) Tomas Bjerre *2017-12-22 17:55:41*
+
+**Bumping version to fix faulty release**
+
+
+[2bf67d61350bf06](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/2bf67d61350bf06) Tomas Bjerre *2017-12-22 17:47:28*
+
+
+## 1.38
+### No issue
+
+**DocFX parsing JSON with Gson, not ScriptEngine**
+
+
+[f02b2a2351f98c4](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/f02b2a2351f98c4) Tomas Bjerre *2017-12-22 12:35:29*
+
+
+## 1.37
+### No issue
+
+**DocFX**
+
+
+[0dfe1aac07b4564](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/0dfe1aac07b4564) Tomas Bjerre *2017-12-21 14:32:46*
+
+
+## 1.36
+### No issue
+
+**Refactoring build scripts**
+
+
+[6bc38ffb4d1a5cb](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/6bc38ffb4d1a5cb) Tomas Bjerre *2017-12-07 15:56:45*
+
+
+## 1.35
+### No issue
+
+**Resharper WikiUrl**
+
+
+[0e8a344d33f9059](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/0e8a344d33f9059) Tomas Bjerre *2017-10-13 09:44:28*
+
+
+## 1.34
+### No issue
+
+**Added handling for empty IssueType Description attributes for Resharper**
+
+
+[d451acff0a708d0](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/d451acff0a708d0) Tomas Bjerre *2017-10-09 16:40:40*
+
+
+## 1.33
+### No issue
+
+**Google Java Format**
+
+
+[e5c4dca85505185](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/e5c4dca85505185) Tomas Bjerre *2017-09-02 11:51:32*
 
 **Travis with JDK8**
 
@@ -282,7 +432,7 @@
 
 
 ## 1.5
-### GitHub [#4](https://github.com/tomasbjerre/violations-comments-to-github-lib/issues/4) 
+### GitHub [#4](https://github.com/tomasbjerre/violation-comments-to-github-lib/issues/4) Line comments in diff
 
 **Optionally comment only changed content**
 
@@ -342,3 +492,4 @@
 [ce275bf022312e3](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/ce275bf022312e3) Tomas Bjerre *2016-03-04 19:02:56*
 
 
+ 

@@ -7,3 +7,5 @@ target
 bin
 temp
 .gradle
+.okhttpcache
+
