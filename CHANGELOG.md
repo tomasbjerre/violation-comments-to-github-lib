@@ -3,13 +3,13 @@
 
 Changelog of Violation comments to github lib.
 
-## Unreleased
+## 1.50
 ### No issue
 
 **GCC, ARM GCC and Doxygen**
 
 
-[09a179c63c0ea4f](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/09a179c63c0ea4f) Tomas Bjerre *2018-07-04 18:19:40*
+[258199d10208910](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/258199d10208910) Tomas Bjerre *2018-07-04 18:20:36*
 
 
 ## 1.49
