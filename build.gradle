@@ -19,7 +19,7 @@ apply from: project.buildscript.classLoader.getResource('release.gradle').toURI(
 
 
 dependencies {
- compile 'se.bjurr.violations:violation-comments-lib:1.63'
+ compile 'se.bjurr.violations:violation-comments-lib:1.64'
  compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.5'
  testCompile 'junit:junit:4.12'
  testCompile 'org.assertj:assertj-core:2.3.0'
