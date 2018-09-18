@@ -3,6 +3,24 @@
 
 Changelog of Violation comments to github lib.
 
+## 1.55
+### No issue
+
+**Reducing logging a bit**
+
+
+[ead1c2cc54e03c0](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/ead1c2cc54e03c0) Tomas Bjerre *2018-09-18 08:31:29*
+
+
+## 1.54
+### No issue
+
+**Enabling injected logger**
+
+
+[6c18fec499527a3](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/6c18fec499527a3) Tomas Bjerre *2018-09-18 07:54:23*
+
+
 ## 1.53
 ### No issue
 
