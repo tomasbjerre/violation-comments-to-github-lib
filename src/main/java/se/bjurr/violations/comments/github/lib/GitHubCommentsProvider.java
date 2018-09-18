@@ -1,5 +1,6 @@
 package se.bjurr.violations.comments.github.lib;
 
+import static java.util.logging.Level.SEVERE;
 import static org.eclipse.egit.github.core.client.GitHubClient.createClient;
 import static se.bjurr.violations.comments.lib.PatchParser.findLineToComment;
 
@@ -13,16 +14,13 @@ import org.eclipse.egit.github.core.RepositoryId;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.IssueService;
 import org.eclipse.egit.github.core.service.PullRequestService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import se.bjurr.violations.comments.lib.CommentsProvider;
+import se.bjurr.violations.comments.lib.ViolationsLogger;
 import se.bjurr.violations.comments.lib.model.ChangedFile;
 import se.bjurr.violations.comments.lib.model.Comment;
 import se.bjurr.violations.lib.util.Optional;
 
 public class GitHubCommentsProvider implements CommentsProvider {
-  private static final Logger LOG = LoggerFactory.getLogger(GitHubCommentsProvider.class);
-
   private static final String TYPE_DIFF = "TYPE_DIFF";
   private static final String TYPE_PR = "TYPE_PR";
 
@@ -33,8 +31,12 @@ public class GitHubCommentsProvider implements CommentsProvider {
   private final RepositoryId repository;
 
   private final ViolationCommentsToGitHubApi violationCommentsToGitHubApi;
+  private final ViolationsLogger violationsLogger;
 
-  public GitHubCommentsProvider(final ViolationCommentsToGitHubApi violationCommentsToGitHubApi) {
+  public GitHubCommentsProvider(
+      ViolationsLogger violationsLogger,
+      final ViolationCommentsToGitHubApi violationCommentsToGitHubApi) {
+    this.violationsLogger = violationsLogger;
     final GitHubClient gitHubClient = createClient(violationCommentsToGitHubApi.getGitHubUrl());
     if (violationCommentsToGitHubApi.getOAuth2Token() != null) {
       gitHubClient.setOAuth2Token(violationCommentsToGitHubApi.getOAuth2Token());
@@ -67,7 +69,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
       issueSerivce.createComment(
           repository, violationCommentsToGitHubApi.getPullRequestId(), comment);
     } catch (final IOException e) {
-      LOG.error("", e);
+      violationsLogger.log(SEVERE, e.getMessage(), e);
     }
   }
 
@@ -88,7 +90,8 @@ public class GitHubCommentsProvider implements CommentsProvider {
       pullRequestService.createComment(
           repository, violationCommentsToGitHubApi.getPullRequestId(), commitComment);
     } catch (final IOException e) {
-      LOG.error( //
+      violationsLogger.log(
+          SEVERE,
           "File: \""
               + file
               + "\" \n"
@@ -130,7 +133,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
             new Comment(Long.toString(comment.getId()), comment.getBody(), TYPE_PR, specifics));
       }
     } catch (final Exception e) {
-      LOG.error("", e);
+      violationsLogger.log(SEVERE, e.getMessage(), e);
     }
     return comments;
   }
@@ -147,7 +150,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
         changedFiles.add(new ChangedFile(commitFile.getFilename(), list));
       }
     } catch (final IOException e) {
-      LOG.error("", e);
+      violationsLogger.log(SEVERE, e.getMessage(), e);
     }
     return changedFiles;
   }
@@ -163,7 +166,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
           issueSerivce.deleteComment(repository, commentId);
         }
       } catch (final Throwable e) {
-        LOG.error("", e);
+        violationsLogger.log(SEVERE, e.getMessage(), e);
       }
     }
   }
