@@ -3,6 +3,33 @@
 
 Changelog of Violation comments to github lib.
 
+## 1.53
+### No issue
+
+**Fix optional rule in YAMLLint**
+
+
+[ccb9e6857731559](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/ccb9e6857731559) Tomas Bjerre *2018-09-17 13:26:26*
+
+
+## 1.52
+### No issue
+
+**YAMLLint**
+
+
+[6180d17fad5cba1](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/6180d17fad5cba1) Tomas Bjerre *2018-09-15 07:57:15*
+
+
+## 1.51
+### No issue
+
+**Correcting CPD parser and adding category to model**
+
+
+[a632fbb8a0a262f](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/a632fbb8a0a262f) Tomas Bjerre *2018-09-12 20:45:35*
+
+
 ## 1.50
 ### No issue
 

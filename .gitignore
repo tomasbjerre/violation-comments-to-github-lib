@@ -8,4 +8,6 @@ bin
 temp
 .gradle
 .okhttpcache
+.idea
+out
 

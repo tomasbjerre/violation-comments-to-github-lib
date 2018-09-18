@@ -8,7 +8,9 @@ import static se.bjurr.violations.lib.util.Utils.emptyToNull;
 import static se.bjurr.violations.lib.util.Utils.firstNonNull;
 
 import java.util.List;
-import se.bjurr.violations.comments.lib.model.CommentsProvider;
+import org.slf4j.LoggerFactory;
+import se.bjurr.violations.comments.lib.CommentsProvider;
+import se.bjurr.violations.comments.lib.ViolationsLogger;
 import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.util.Optional;
 
@@ -38,6 +40,13 @@ public class ViolationCommentsToGitHubApi {
   private boolean commentOnlyChangedContent = false;
   private boolean keepOldComments = false;
   private String commentTemplate;
+  private ViolationsLogger violationsLogger =
+      new ViolationsLogger() {
+        @Override
+        public void log(final String string) {
+          LoggerFactory.getLogger(ViolationsLogger.class).info(string);
+        }
+      };
 
   private ViolationCommentsToGitHubApi() {}
 
@@ -64,6 +73,10 @@ public class ViolationCommentsToGitHubApi {
     checkNotNull(pullRequestId, "PullRequestId");
     checkNotNull(repositoryName, "RepositoryName");
     checkNotNull(repositoryOwner, "RepositoryOwner");
+  }
+
+  public void setViolationsLogger(final ViolationsLogger violationsLogger) {
+    this.violationsLogger = violationsLogger;
   }
 
   public boolean getCommentOnlyChangedContent() {
@@ -137,7 +150,7 @@ public class ViolationCommentsToGitHubApi {
     populateFromEnvironmentVariables();
     checkState();
     final CommentsProvider commentsProvider = new GitHubCommentsProvider(this);
-    createComments(commentsProvider, violations, MAX_VALUE);
+    createComments(violationsLogger, violations, MAX_VALUE, commentsProvider);
   }
 
   public ViolationCommentsToGitHubApi withCommentOnlyChangedContent(
