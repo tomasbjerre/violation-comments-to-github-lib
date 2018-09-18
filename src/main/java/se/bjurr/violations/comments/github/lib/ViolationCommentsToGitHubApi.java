@@ -75,8 +75,9 @@ public class ViolationCommentsToGitHubApi {
     checkNotNull(repositoryOwner, "RepositoryOwner");
   }
 
-  public void setViolationsLogger(final ViolationsLogger violationsLogger) {
+    public ViolationCommentsToGitHubApi withViolationsLogger(final ViolationsLogger violationsLogger) {
     this.violationsLogger = violationsLogger;
+    return this;
   }
 
   public boolean getCommentOnlyChangedContent() {
