@@ -50,7 +50,8 @@ public class ViolationCommentsToGitHubApi {
 
         @Override
         public void log(final Level level, final String string, final Throwable t) {
-          Logger.getLogger(ViolationCommentsToGitHubApi.class.getSimpleName()).log(level, string, t);
+          Logger.getLogger(ViolationCommentsToGitHubApi.class.getSimpleName())
+              .log(level, string, t);
         }
       };
 
