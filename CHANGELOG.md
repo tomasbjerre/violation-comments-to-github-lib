@@ -3,6 +3,15 @@
 
 Changelog of Violation comments to github lib.
 
+## 1.58
+### No issue
+
+**Exception logging in build job log**
+
+
+[52e6dd06ff74d9d](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/52e6dd06ff74d9d) Tomas Bjerre *2018-09-18 19:22:57*
+
+
 ## 1.57
 ### No issue
 
