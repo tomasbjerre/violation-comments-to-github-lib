@@ -3,6 +3,15 @@
 
 Changelog of Violation comments to github lib.
 
+## 1.60
+### No issue
+
+**Correcting Kotlin parsers**
+
+
+[5a3e0b716aa9445](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/5a3e0b716aa9445) Tomas Bjerre *2018-09-20 23:51:02*
+
+
 ## 1.59
 ### No issue
 
