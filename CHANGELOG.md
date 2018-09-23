@@ -3,6 +3,15 @@
 
 Changelog of Violation comments to github lib.
 
+## 1.61
+### No issue
+
+**Automating reporters in readme**
+
+
+[38fe9c7fd8e0309](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/38fe9c7fd8e0309) Tomas Bjerre *2018-09-23 12:47:50*
+
+
 ## 1.60
 ### No issue
 
