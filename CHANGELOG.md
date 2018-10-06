@@ -3,6 +3,15 @@
 
 Changelog of Violation comments to github lib.
 
+## 1.62
+### No issue
+
+**Including entire rule in Flake8**
+
+
+[0b2c7fa2e15ccf8](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/0b2c7fa2e15ccf8) Tomas Bjerre *2018-10-06 06:27:33*
+
+
 ## 1.61
 ### No issue
 
@@ -531,7 +540,7 @@ Changelog of Violation comments to github lib.
 
 
 ## 1.5
-### GitHub [#4](https://github.com/tomasbjerre/violation-comments-to-github-lib/issues/4) Line comments in diff
+### GitHub [#4](https://github.com/tomasbjerre/violation-comments-to-github-lib/issues/4) Line comments in diff    *enhancement*  
 
 **Optionally comment only changed content**
 
