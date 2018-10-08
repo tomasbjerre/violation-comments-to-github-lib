@@ -3,6 +3,15 @@
 
 Changelog of Violation comments to github lib.
 
+## 1.63
+### No issue
+
+**Cleanup**
+
+
+[0433d04f34a7c93](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/0433d04f34a7c93) Tomas Bjerre *2018-10-08 16:34:24*
+
+
 ## 1.62
 ### No issue
 
