@@ -1,19 +1,19 @@
 package se.bjurr.violations.comments.github.lib;
 
 import static java.lang.Integer.MAX_VALUE;
+import static java.util.Optional.ofNullable;
 import static se.bjurr.violations.comments.lib.CommentsCreator.createComments;
-import static se.bjurr.violations.lib.util.Optional.fromNullable;
 import static se.bjurr.violations.lib.util.Utils.checkNotNull;
 import static se.bjurr.violations.lib.util.Utils.emptyToNull;
 import static se.bjurr.violations.lib.util.Utils.firstNonNull;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import se.bjurr.violations.comments.lib.CommentsProvider;
 import se.bjurr.violations.comments.lib.ViolationsLogger;
 import se.bjurr.violations.lib.model.Violation;
-import se.bjurr.violations.lib.util.Optional;
 
 public class ViolationCommentsToGitHubApi {
   public static final String DEFAULT_PROP_VIOLATIONS_OAUTH2TOKEN = "VIOLATIONS_OAUTH2TOKEN";
@@ -247,6 +247,6 @@ public class ViolationCommentsToGitHubApi {
   }
 
   public Optional<String> findCommentTemplate() {
-    return fromNullable(commentTemplate);
+    return ofNullable(commentTemplate);
   }
 }

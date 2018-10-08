@@ -2,11 +2,11 @@ package se.bjurr.violations.comments.github.lib;
 
 import static java.util.logging.Level.SEVERE;
 import static org.eclipse.egit.github.core.client.GitHubClient.createClient;
-import static se.bjurr.violations.comments.lib.PatchParser.findLineToComment;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.egit.github.core.CommitComment;
 import org.eclipse.egit.github.core.CommitFile;
 import org.eclipse.egit.github.core.RepositoryCommit;
@@ -15,10 +15,10 @@ import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.IssueService;
 import org.eclipse.egit.github.core.service.PullRequestService;
 import se.bjurr.violations.comments.lib.CommentsProvider;
+import se.bjurr.violations.comments.lib.PatchParser;
 import se.bjurr.violations.comments.lib.ViolationsLogger;
 import se.bjurr.violations.comments.lib.model.ChangedFile;
 import se.bjurr.violations.comments.lib.model.Comment;
-import se.bjurr.violations.lib.util.Optional;
 
 public class GitHubCommentsProvider implements CommentsProvider {
   private static final String TYPE_DIFF = "TYPE_DIFF";
@@ -76,17 +76,15 @@ public class GitHubCommentsProvider implements CommentsProvider {
   @Override
   public void createSingleFileComment(
       final ChangedFile file, final Integer line, final String comment) {
-    Optional<Integer> lineToComment = findLineToComment(file.getSpecifics().get(0), line);
-    if (!lineToComment.isPresent()) {
-      // Put comments, that are not int the diff, on line 1
-      lineToComment = Optional.fromNullable(1);
-    }
+    final String patchString = file.getSpecifics().get(0);
+    Optional<Integer> lineToCommentOpt = new PatchParser(patchString).findLineInDiff(line);
+    final Integer lineToComment = lineToCommentOpt.orElse(1);
     try {
       final CommitComment commitComment = new CommitComment();
       commitComment.setBody(comment);
       commitComment.setPath(file.getFilename());
       commitComment.setCommitId(pullRequestCommit);
-      commitComment.setPosition(lineToComment.get());
+      commitComment.setPosition(lineToComment);
       pullRequestService.createComment(
           repository, violationCommentsToGitHubApi.getPullRequestId(), commitComment);
     } catch (final IOException e) {
@@ -101,7 +99,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
               + "\" \n"
               + //
               "Position: \""
-              + lineToComment.orNull()
+              + lineToComment
               + "\" \n"
               + //
               "Comment: \""
@@ -173,12 +171,11 @@ public class GitHubCommentsProvider implements CommentsProvider {
 
   @Override
   public boolean shouldComment(final ChangedFile changedFile, final Integer line) {
-    final Optional<Integer> lineToComment =
-        findLineToComment(changedFile.getSpecifics().get(0), line);
-    final boolean lineNotChanged = !lineToComment.isPresent();
+    final String patchString = changedFile.getSpecifics().get(0);
+    final boolean lineChanged = new PatchParser(patchString).isLineInDiff(line);
     final boolean commentOnlyChangedContent =
         violationCommentsToGitHubApi.getCommentOnlyChangedContent();
-    if (commentOnlyChangedContent && lineNotChanged) {
+    if (commentOnlyChangedContent && !lineChanged) {
       return false;
     }
     return true;
