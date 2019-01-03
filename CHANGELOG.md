@@ -3,6 +3,15 @@
 
 Changelog of Violation comments to github lib.
 
+## 1.64
+### No issue
+
+**Correcting AnsibleLint parsing**
+
+
+[4f2c5c23a68f9a3](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/4f2c5c23a68f9a3) Tomas Bjerre *2019-01-03 17:16:22*
+
+
 ## 1.63
 ### No issue
 
