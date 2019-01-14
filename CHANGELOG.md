@@ -3,6 +3,15 @@
 
 Changelog of Violation comments to github lib.
 
+## 1.66
+### No issue
+
+**Avoiding faulty slash with CodeNarc**
+
+
+[e39f164b90f2a6d](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/e39f164b90f2a6d) Tomas Bjerre *2019-01-14 17:40:37*
+
+
 ## 1.65
 ### No issue
 
