@@ -3,6 +3,15 @@
 
 Changelog of Violation comments to github lib.
 
+## 1.68
+### No issue
+
+**Fixing Flake8 parser**
+
+
+[80383dfca9c9fb6](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/80383dfca9c9fb6) Tomas Bjerre *2019-02-11 18:26:44*
+
+
 ## 1.67
 ### No issue
 
