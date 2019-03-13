@@ -3,6 +3,15 @@
 
 Changelog of Violation comments to github lib.
 
+## 1.70
+### No issue
+
+**Klocwork line numbers**
+
+
+[c92d077e5710d0b](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/c92d077e5710d0b) Tomas Bjerre *2019-03-13 19:20:35*
+
+
 ## 1.69
 ### No issue
 
