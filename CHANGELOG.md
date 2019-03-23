@@ -3,6 +3,15 @@
 
 Changelog of Violation comments to github lib.
 
+## 1.71
+### No issue
+
+**Sonar Report**
+
+
+[0215ef3a3f3ba0e](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/0215ef3a3f3ba0e) Tomas Bjerre *2019-03-23 15:04:55*
+
+
 ## 1.70
 ### No issue
 
