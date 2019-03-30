@@ -3,6 +3,15 @@
 
 Changelog of Violation comments to github lib.
 
+## 1.72
+### No issue
+
+**Correcting Sonar severity**
+
+
+[cc2953954c796d6](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/cc2953954c796d6) Tomas Bjerre *2019-03-30 06:02:14*
+
+
 ## 1.71
 ### No issue
 
