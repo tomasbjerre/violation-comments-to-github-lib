@@ -202,8 +202,8 @@ public class GitHubCommentsProvider implements CommentsProvider {
   }
 
   @Override
-  public Integer getMaxNumberOfComments() {
-    return violationCommentsToGitHubApi.getMaxNumberOfComments();
+  public Integer getMaxNumberOfViolations() {
+    return violationCommentsToGitHubApi.getMaxNumberOfViolations();
   }
 
   @Override

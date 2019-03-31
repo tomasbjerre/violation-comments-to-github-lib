@@ -54,7 +54,7 @@ public class ViolationCommentsToGitHubApi {
         }
       };
   private Integer maxCommentSize;
-  private Integer maxNumberOfComments;
+  private Integer maxNumberOfViolations;
 
   private ViolationCommentsToGitHubApi() {}
 
@@ -256,13 +256,14 @@ public class ViolationCommentsToGitHubApi {
     return this;
   }
 
-  public ViolationCommentsToGitHubApi withMaxNumberOfComments(final Integer maxNumberOfComments) {
-    this.maxNumberOfComments = maxNumberOfComments;
+  public ViolationCommentsToGitHubApi withMaxNumberOfViolations(
+      final Integer maxNumberOfViolations) {
+    this.maxNumberOfViolations = maxNumberOfViolations;
     return this;
   }
 
-  public Integer getMaxNumberOfComments() {
-    return maxNumberOfComments;
+  public Integer getMaxNumberOfViolations() {
+    return maxNumberOfViolations;
   }
 
   public Integer getMaxCommentSize() {
