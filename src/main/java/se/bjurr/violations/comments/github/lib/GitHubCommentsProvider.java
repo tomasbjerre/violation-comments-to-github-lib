@@ -34,7 +34,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
   private final ViolationsLogger violationsLogger;
 
   public GitHubCommentsProvider(
-      ViolationsLogger violationsLogger,
+      final ViolationsLogger violationsLogger,
       final ViolationCommentsToGitHubApi violationCommentsToGitHubApi) {
     this.violationsLogger = violationsLogger;
     final GitHubClient gitHubClient = createClient(violationCommentsToGitHubApi.getGitHubUrl());
@@ -77,7 +77,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
   public void createSingleFileComment(
       final ChangedFile file, final Integer line, final String comment) {
     final String patchString = file.getSpecifics().get(0);
-    Optional<Integer> lineToCommentOpt = new PatchParser(patchString).findLineInDiff(line);
+    final Optional<Integer> lineToCommentOpt = new PatchParser(patchString).findLineInDiff(line);
     final Integer lineToComment = lineToCommentOpt.orElse(1);
     try {
       final CommitComment commitComment = new CommitComment();
@@ -199,5 +199,15 @@ public class GitHubCommentsProvider implements CommentsProvider {
   @Override
   public Optional<String> findCommentTemplate() {
     return violationCommentsToGitHubApi.findCommentTemplate();
+  }
+
+  @Override
+  public Integer getMaxNumberOfComments() {
+    return violationCommentsToGitHubApi.getMaxNumberOfComments();
+  }
+
+  @Override
+  public Integer getMaxCommentSize() {
+    return violationCommentsToGitHubApi.getMaxCommentSize();
   }
 }

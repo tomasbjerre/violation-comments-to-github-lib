@@ -54,6 +54,8 @@ public class ViolationCommentsToGitHubApi {
               .log(level, string, t);
         }
       };
+  private Integer maxCommentSize;
+  private Integer maxNumberOfComments;
 
   private ViolationCommentsToGitHubApi() {}
 
@@ -248,5 +250,23 @@ public class ViolationCommentsToGitHubApi {
 
   public Optional<String> findCommentTemplate() {
     return ofNullable(commentTemplate);
+  }
+
+  public ViolationCommentsToGitHubApi withMaxCommentSize(final Integer maxCommentSize) {
+    this.maxCommentSize = maxCommentSize;
+    return this;
+  }
+
+  public ViolationCommentsToGitHubApi withMaxNumberOfComments(final Integer maxNumberOfComments) {
+    this.maxNumberOfComments = maxNumberOfComments;
+    return this;
+  }
+
+  public Integer getMaxNumberOfComments() {
+    return maxNumberOfComments;
+  }
+
+  public Integer getMaxCommentSize() {
+    return maxCommentSize;
   }
 }
