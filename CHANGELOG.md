@@ -3,6 +3,15 @@
 
 Changelog of Violation comments to github lib.
 
+## 1.75
+### No issue
+
+**maxNumberOfViolations**
+
+
+[1d8661dcbebbb6c](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/1d8661dcbebbb6c) Tomas Bjerre *2019-03-31 13:00:43*
+
+
 ## 1.74
 ### No issue
 
