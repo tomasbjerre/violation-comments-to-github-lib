@@ -1,6 +1,5 @@
 package se.bjurr.violations.comments.github.lib;
 
-import static java.lang.Integer.MAX_VALUE;
 import static java.util.Optional.ofNullable;
 import static se.bjurr.violations.comments.lib.CommentsCreator.createComments;
 import static se.bjurr.violations.lib.util.Utils.checkNotNull;
@@ -11,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import se.bjurr.violations.comments.lib.CommentsProvider;
 import se.bjurr.violations.comments.lib.ViolationsLogger;
 import se.bjurr.violations.lib.model.Violation;
@@ -161,7 +161,7 @@ public class ViolationCommentsToGitHubApi {
     populateFromEnvironmentVariables();
     checkState();
     final CommentsProvider commentsProvider = new GitHubCommentsProvider(violationsLogger, this);
-    createComments(violationsLogger, violations, MAX_VALUE, commentsProvider);
+    createComments(violationsLogger, violations, commentsProvider);
   }
 
   public ViolationCommentsToGitHubApi withCommentOnlyChangedContent(
