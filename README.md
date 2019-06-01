@@ -25,6 +25,7 @@ This software can be used:
  * With a [Gradle plugin](https://github.com/tomasbjerre/violation-comments-to-github-gradle-plugin).
  * With a [Maven plugin](https://github.com/tomasbjerre/violation-comments-to-github-maven-plugin).
  * With a [Jenkins plugin](https://github.com/tomasbjerre/violation-comments-to-github-jenkins-plugin).
+ * From [Command Line](https://github.com/tomasbjerre/violation-comments-to-github-command-line).
 
 You may also checkout [this blog post](http://bjurr.se/static-code-analysis-with-github/) that explains how to set it up with Travis.
 
