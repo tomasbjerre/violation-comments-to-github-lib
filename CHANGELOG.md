@@ -3,8 +3,13 @@
 
 Changelog of Violation comments to github lib.
 
-## Unreleased
+## 1.77
 ### No issue
+
+**commentOnlyChangedFiles**
+
+
+[494058cbdaec288](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/494058cbdaec288) Tomas Bjerre *2019-06-15 18:22:13*
 
 **doc**
 
