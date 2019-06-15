@@ -55,6 +55,7 @@ public class ViolationCommentsToGitHubApi {
       };
   private Integer maxCommentSize;
   private Integer maxNumberOfViolations;
+  private boolean commentOnlyChangedFiles = true;
 
   private ViolationCommentsToGitHubApi() {}
 
@@ -179,6 +180,16 @@ public class ViolationCommentsToGitHubApi {
       final boolean createSingleFileComments) {
     this.createSingleFileComments = createSingleFileComments;
     return this;
+  }
+
+  public ViolationCommentsToGitHubApi withCommentOnlyChangedFiles(
+      final boolean commentOnlyChangedFiles) {
+    this.commentOnlyChangedFiles = commentOnlyChangedFiles;
+    return this;
+  }
+
+  public boolean getCommentOnlyChangedFiles() {
+    return commentOnlyChangedFiles;
   }
 
   public ViolationCommentsToGitHubApi withGitHubUrl(final String gitHubUrl) {

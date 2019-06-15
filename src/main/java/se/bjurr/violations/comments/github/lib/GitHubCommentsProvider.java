@@ -64,7 +64,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
   }
 
   @Override
-  public void createCommentWithAllSingleFileComments(final String comment) {
+  public void createComment(final String comment) {
     try {
       issueSerivce.createComment(
           repository, violationCommentsToGitHubApi.getPullRequestId(), comment);
@@ -194,6 +194,11 @@ public class GitHubCommentsProvider implements CommentsProvider {
   @Override
   public boolean shouldKeepOldComments() {
     return violationCommentsToGitHubApi.getKeepOldComments();
+  }
+
+  @Override
+  public boolean shouldCommentOnlyChangedFiles() {
+    return violationCommentsToGitHubApi.getCommentOnlyChangedFiles();
   }
 
   @Override
