@@ -3,6 +3,15 @@
 
 Changelog of Violation comments to github lib.
 
+## 1.78
+### No issue
+
+**junit**
+
+
+[b1509d661cd788b](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/b1509d661cd788b) Tomas Bjerre *2019-06-16 16:30:41*
+
+
 ## 1.77
 ### No issue
 
