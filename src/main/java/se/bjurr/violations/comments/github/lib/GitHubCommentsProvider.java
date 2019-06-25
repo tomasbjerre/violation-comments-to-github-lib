@@ -1,9 +1,12 @@
 package se.bjurr.violations.comments.github.lib;
 
 import static java.util.logging.Level.SEVERE;
-import static org.eclipse.egit.github.core.client.GitHubClient.createClient;
+import static org.eclipse.egit.github.core.client.IGitHubConstants.HOST_API;
+import static org.eclipse.egit.github.core.client.IGitHubConstants.HOST_DEFAULT;
+import static org.eclipse.egit.github.core.client.IGitHubConstants.HOST_GISTS;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +40,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
       final ViolationsLogger violationsLogger,
       final ViolationCommentsToGitHubApi violationCommentsToGitHubApi) {
     this.violationsLogger = violationsLogger;
-    final GitHubClient gitHubClient = createClient(violationCommentsToGitHubApi.getGitHubUrl());
+    final GitHubClient gitHubClient = getGitHubClient(violationCommentsToGitHubApi.getGitHubUrl());
     if (violationCommentsToGitHubApi.getOAuth2Token() != null) {
       gitHubClient.setOAuth2Token(violationCommentsToGitHubApi.getOAuth2Token());
     } else if (violationCommentsToGitHubApi.getUsername() != null
@@ -61,6 +64,21 @@ public class GitHubCommentsProvider implements CommentsProvider {
     }
     pullRequestCommit = commits.get(commits.size() - 1).getSha();
     this.violationCommentsToGitHubApi = violationCommentsToGitHubApi;
+  }
+
+  static GitHubClientTestable getGitHubClient(final String gitHubUrl) {
+    try {
+      final URL url = new URL(gitHubUrl);
+      String hostname = url.getHost();
+      if (HOST_DEFAULT.equals(hostname) || HOST_GISTS.equals(hostname)) {
+        hostname = HOST_API;
+      }
+      final int port = url.getPort();
+      final String scheme = url.getProtocol();
+      return new GitHubClientTestable(hostname, port, scheme);
+    } catch (final IOException e) {
+      throw new IllegalArgumentException(e);
+    }
   }
 
   @Override
