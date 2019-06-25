@@ -3,6 +3,16 @@
 
 Changelog of Violation comments to github lib.
 
+## 1.79
+### No issue
+
+**Allowing HTTP and HTTPS to be used**
+
+ * Was always using HTTPS. 
+
+[30a2768b1a76ab1](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/30a2768b1a76ab1) Tomas Bjerre *2019-06-25 18:01:16*
+
+
 ## 1.78
 ### No issue
 
