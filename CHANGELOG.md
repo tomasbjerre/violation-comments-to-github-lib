@@ -3,6 +3,15 @@
 
 Changelog of Violation comments to github lib.
 
+## 1.80
+### No issue
+
+**Removing newline before fingerprint**
+
+
+[8d574f7b1c84eb4](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/8d574f7b1c84eb4) Tomas Bjerre *2019-08-29 18:32:32*
+
+
 ## 1.79
 ### No issue
 
