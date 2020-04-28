@@ -102,6 +102,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
       commitComment.setBody(comment);
       commitComment.setPath(file.getFilename());
       commitComment.setCommitId(pullRequestCommit);
+      commitComment.setLine(line);
       commitComment.setPosition(lineToComment);
       pullRequestService.createComment(
           repository, violationCommentsToGitHubApi.getPullRequestId(), commitComment);
