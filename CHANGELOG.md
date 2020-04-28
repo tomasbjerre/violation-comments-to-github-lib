@@ -3,6 +3,25 @@
 
 Changelog of Violation comments to github lib.
 
+## 1.81
+### No issue
+
+**add missing line number  in comment api**
+
+
+[9f5bf020d910459](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/9f5bf020d910459) Abhishek Taneja *2020-04-27 21:51:41*
+
+**doc**
+
+
+[bb5c6d3a4c3eda0](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/bb5c6d3a4c3eda0) Tomas Bjerre *2019-10-09 17:00:18*
+
+**Create FUNDING.yml**
+
+
+[1eed098d70bdd2e](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/1eed098d70bdd2e) Tomas Bjerre *2019-09-28 07:01:44*
+
+
 ## 1.80
 ### No issue
 
