@@ -6,12 +6,12 @@ import static se.bjurr.violations.lib.util.Utils.checkNotNull;
 import static se.bjurr.violations.lib.util.Utils.emptyToNull;
 import static se.bjurr.violations.lib.util.Utils.firstNonNull;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import se.bjurr.violations.comments.lib.CommentsProvider;
-import se.bjurr.violations.comments.lib.ViolationsLogger;
+import se.bjurr.violations.lib.ViolationsLogger;
 import se.bjurr.violations.lib.model.Violation;
 
 public class ViolationCommentsToGitHubApi {
@@ -33,7 +33,7 @@ public class ViolationCommentsToGitHubApi {
   private String repositoryOwner;
   private String repositoryName;
   private int pullRequestId;
-  private List<Violation> violations;
+  private Set<Violation> violations;
   private boolean createSingleFileComments = true;
   private boolean createCommentWithAllSingleFileComments = false;
 
@@ -60,8 +60,8 @@ public class ViolationCommentsToGitHubApi {
   private ViolationCommentsToGitHubApi() {}
 
   private void checkState() {
-    if (oAuth2Token == null //
-        && (username == null || password == null)) {
+    if (this.oAuth2Token == null //
+        && (this.username == null || this.password == null)) {
       throw new IllegalStateException(
           "User and Password, or OAuth2 token, must be set! They can be set with the API or by setting properties.\n"
               + //
@@ -79,9 +79,9 @@ public class ViolationCommentsToGitHubApi {
               + DEFAULT_PROP_VIOLATIONS_OAUTH2TOKEN
               + "=123ASDAA...");
     }
-    checkNotNull(pullRequestId, "PullRequestId");
-    checkNotNull(repositoryName, "RepositoryName");
-    checkNotNull(repositoryOwner, "RepositoryOwner");
+    checkNotNull(this.pullRequestId, "PullRequestId");
+    checkNotNull(this.repositoryName, "RepositoryName");
+    checkNotNull(this.repositoryOwner, "RepositoryOwner");
   }
 
   public ViolationCommentsToGitHubApi withViolationsLogger(
@@ -91,77 +91,78 @@ public class ViolationCommentsToGitHubApi {
   }
 
   public boolean getCommentOnlyChangedContent() {
-    return commentOnlyChangedContent;
+    return this.commentOnlyChangedContent;
   }
 
   public boolean getCreateCommentWithAllSingleFileComments() {
-    return createCommentWithAllSingleFileComments;
+    return this.createCommentWithAllSingleFileComments;
   }
 
   public boolean getCreateSingleFileComments() {
-    return createSingleFileComments;
+    return this.createSingleFileComments;
   }
 
   public String getGitHubUrl() {
-    if (gitHubUrl == null || gitHubUrl.trim().isEmpty()) {
+    if (this.gitHubUrl == null || this.gitHubUrl.trim().isEmpty()) {
       return "https://api.github.com/";
     }
-    return gitHubUrl;
+    return this.gitHubUrl;
   }
 
   public String getOAuth2Token() {
-    return oAuth2Token;
+    return this.oAuth2Token;
   }
 
   public String getPassword() {
-    return password;
+    return this.password;
   }
 
   public String getPropOAuth2Token() {
-    return propOAuth2Token;
+    return this.propOAuth2Token;
   }
 
   public String getPropPassword() {
-    return propPassword;
+    return this.propPassword;
   }
 
   public String getPropUsername() {
-    return propUsername;
+    return this.propUsername;
   }
 
   public int getPullRequestId() {
-    return pullRequestId;
+    return this.pullRequestId;
   }
 
   public String getRepositoryName() {
-    return repositoryName;
+    return this.repositoryName;
   }
 
   public String getRepositoryOwner() {
-    return repositoryOwner;
+    return this.repositoryOwner;
   }
 
   public String getUsername() {
-    return username;
+    return this.username;
   }
 
   private void populateFromEnvironmentVariables() {
-    if (System.getProperty(propUsername) != null) {
-      username = firstNonNull(username, System.getProperty(propUsername));
+    if (System.getProperty(this.propUsername) != null) {
+      this.username = firstNonNull(this.username, System.getProperty(this.propUsername));
     }
-    if (System.getProperty(propPassword) != null) {
-      password = firstNonNull(password, System.getProperty(propPassword));
+    if (System.getProperty(this.propPassword) != null) {
+      this.password = firstNonNull(this.password, System.getProperty(this.propPassword));
     }
-    if (System.getProperty(propOAuth2Token) != null) {
-      oAuth2Token = firstNonNull(oAuth2Token, System.getProperty(propOAuth2Token));
+    if (System.getProperty(this.propOAuth2Token) != null) {
+      this.oAuth2Token = firstNonNull(this.oAuth2Token, System.getProperty(this.propOAuth2Token));
     }
   }
 
   public void toPullRequest() throws Exception {
-    populateFromEnvironmentVariables();
-    checkState();
-    final CommentsProvider commentsProvider = new GitHubCommentsProvider(violationsLogger, this);
-    createComments(violationsLogger, violations, commentsProvider);
+    this.populateFromEnvironmentVariables();
+    this.checkState();
+    final CommentsProvider commentsProvider =
+        new GitHubCommentsProvider(this.violationsLogger, this);
+    createComments(this.violationsLogger, this.violations, commentsProvider);
   }
 
   public ViolationCommentsToGitHubApi withCommentOnlyChangedContent(
@@ -189,7 +190,7 @@ public class ViolationCommentsToGitHubApi {
   }
 
   public boolean getCommentOnlyChangedFiles() {
-    return commentOnlyChangedFiles;
+    return this.commentOnlyChangedFiles;
   }
 
   public ViolationCommentsToGitHubApi withGitHubUrl(final String gitHubUrl) {
@@ -208,15 +209,15 @@ public class ViolationCommentsToGitHubApi {
   }
 
   public void withPropOAuth2Token(final String envOAuth2Token) {
-    propOAuth2Token = envOAuth2Token;
+    this.propOAuth2Token = envOAuth2Token;
   }
 
   public void withPropPassword(final String envPassword) {
-    propPassword = envPassword;
+    this.propPassword = envPassword;
   }
 
   public void withPropUsername(final String envUsername) {
-    propUsername = envUsername;
+    this.propUsername = envUsername;
   }
 
   public ViolationCommentsToGitHubApi withPullRequestId(final int pullRequestId) {
@@ -239,7 +240,7 @@ public class ViolationCommentsToGitHubApi {
     return this;
   }
 
-  public ViolationCommentsToGitHubApi withViolations(final List<Violation> violations) {
+  public ViolationCommentsToGitHubApi withViolations(final Set<Violation> violations) {
     this.violations = violations;
     return this;
   }
@@ -250,7 +251,7 @@ public class ViolationCommentsToGitHubApi {
   }
 
   public boolean getKeepOldComments() {
-    return keepOldComments;
+    return this.keepOldComments;
   }
 
   public ViolationCommentsToGitHubApi withCommentTemplate(final String commentTemplate) {
@@ -259,7 +260,7 @@ public class ViolationCommentsToGitHubApi {
   }
 
   public Optional<String> findCommentTemplate() {
-    return ofNullable(commentTemplate);
+    return ofNullable(this.commentTemplate);
   }
 
   public ViolationCommentsToGitHubApi withMaxCommentSize(final Integer maxCommentSize) {
@@ -274,10 +275,10 @@ public class ViolationCommentsToGitHubApi {
   }
 
   public Integer getMaxNumberOfViolations() {
-    return maxNumberOfViolations;
+    return this.maxNumberOfViolations;
   }
 
   public Integer getMaxCommentSize() {
-    return maxCommentSize;
+    return this.maxCommentSize;
   }
 }
