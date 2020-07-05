@@ -3,6 +3,15 @@
 
 Changelog of Violation comments to github lib.
 
+## 1.82
+### No issue
+
+**New: custom logging in violations-lib**
+
+
+[2dbf880520ea6f6](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/2dbf880520ea6f6) Tomas Bjerre *2020-07-05 12:11:57*
+
+
 ## 1.81
 ### No issue
 
