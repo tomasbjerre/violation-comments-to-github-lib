@@ -4,7 +4,7 @@ jdk:
   - openjdk8
   - openjdk11
 script:
-  - ./build.sh
+- ./gradlew build -i -s
 after_script:
   - find -name TEST* -exec cat {} \;
 notifications:
