@@ -1,7 +1,16 @@
 
- # Violation comments to github lib changelog
+# violation-comments-to-github-lib changelog
 
-Changelog of Violation comments to github lib.
+Changelog of violation-comments-to-github-lib.
+
+## 1.83.1
+### No issue
+
+**new build script**
+
+
+[6d77fce4c11900f](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/6d77fce4c11900f) Tomas Bjerre *2021-04-04 15:03:21*
+
 
 ## 1.82
 ### No issue
@@ -45,7 +54,7 @@ Changelog of Violation comments to github lib.
 
 **Allowing HTTP and HTTPS to be used**
 
- * Was always using HTTPS. 
+* Was always using HTTPS. 
 
 [30a2768b1a76ab1](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/30a2768b1a76ab1) Tomas Bjerre *2019-06-25 18:01:16*
 
@@ -473,9 +482,9 @@ Changelog of Violation comments to github lib.
 
 **Keeping comments and adjusting checkstyle**
 
- * Checkstyle now allows empty source attribute. 
- * Comments can optionaly be kept and not removed when new comments are added. 
- * Will no longer re-create identical comments. 
+* Checkstyle now allows empty source attribute. 
+* Comments can optionaly be kept and not removed when new comments are added. 
+* Will no longer re-create identical comments. 
 
 [de3cf356ed087fe](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/de3cf356ed087fe) Tomas Bjerre *2017-09-02 09:08:59*
 
@@ -735,7 +744,7 @@ Changelog of Violation comments to github lib.
 
 **Using correct commit for PR**
 
- * Was using the first one returned by /commits but the last one in the list is actualy the latest one. 
+* Was using the first one returned by /commits but the last one in the list is actualy the latest one. 
 
 [a475aaee7ea6fdb](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/a475aaee7ea6fdb) Tomas Bjerre *2016-03-09 17:35:47*
 
@@ -745,7 +754,7 @@ Changelog of Violation comments to github lib.
 
 **Optionally comment only changed content**
 
- * Also correcting spaces in error logging string 
+* Also correcting spaces in error logging string 
 
 [6986d404caea459](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/6986d404caea459) Tomas Bjerre *2016-03-08 17:18:42*
 
@@ -801,4 +810,3 @@ Changelog of Violation comments to github lib.
 [ce275bf022312e3](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/ce275bf022312e3) Tomas Bjerre *2016-03-04 19:02:56*
 
 
- 
