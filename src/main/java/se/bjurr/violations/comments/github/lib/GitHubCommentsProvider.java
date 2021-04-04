@@ -18,10 +18,10 @@ import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.IssueService;
 import org.eclipse.egit.github.core.service.PullRequestService;
 import se.bjurr.violations.comments.lib.CommentsProvider;
-import se.bjurr.violations.comments.lib.PatchParser;
 import se.bjurr.violations.comments.lib.model.ChangedFile;
 import se.bjurr.violations.comments.lib.model.Comment;
 import se.bjurr.violations.lib.ViolationsLogger;
+import se.bjurr.violations.lib.util.PatchParserUtil;
 
 public class GitHubCommentsProvider implements CommentsProvider {
   private static final String TYPE_DIFF = "TYPE_DIFF";
@@ -95,7 +95,8 @@ public class GitHubCommentsProvider implements CommentsProvider {
   public void createSingleFileComment(
       final ChangedFile file, final Integer line, final String comment) {
     final String patchString = file.getSpecifics().get(0);
-    final Optional<Integer> lineToCommentOpt = new PatchParser(patchString).findLineInDiff(line);
+    final Optional<Integer> lineToCommentOpt =
+        new PatchParserUtil(patchString).findLineInDiff(line);
     final Integer lineToComment = lineToCommentOpt.orElse(1);
     try {
       final CommitComment commitComment = new CommitComment();
@@ -193,7 +194,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
   @Override
   public boolean shouldComment(final ChangedFile changedFile, final Integer line) {
     final String patchString = changedFile.getSpecifics().get(0);
-    final boolean lineChanged = new PatchParser(patchString).isLineInDiff(line);
+    final boolean lineChanged = new PatchParserUtil(patchString).isLineInDiff(line);
     final boolean commentOnlyChangedContent =
         this.violationCommentsToGitHubApi.getCommentOnlyChangedContent();
     if (commentOnlyChangedContent && !lineChanged) {
