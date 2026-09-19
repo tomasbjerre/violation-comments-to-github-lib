@@ -54,7 +54,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
             violationCommentsToGitHubApi.getRepositoryName());
     this.pullRequestService = new PullRequestService(gitHubClient);
     this.issueSerivce = new IssueService(gitHubClient);
-    List<RepositoryCommit> commits = null;
+    final List<RepositoryCommit> commits;
     try {
       commits =
           this.pullRequestService.getCommits(
@@ -197,10 +197,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
     final boolean lineChanged = new PatchParserUtil(patchString).isLineInDiff(line);
     final boolean commentOnlyChangedContent =
         this.violationCommentsToGitHubApi.getCommentOnlyChangedContent();
-    if (commentOnlyChangedContent && !lineChanged) {
-      return false;
-    }
-    return true;
+    return !commentOnlyChangedContent || lineChanged;
   }
 
   @Override

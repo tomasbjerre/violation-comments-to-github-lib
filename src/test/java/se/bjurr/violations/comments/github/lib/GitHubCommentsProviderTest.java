@@ -3,7 +3,7 @@ package se.bjurr.violations.comments.github.lib;
 import static org.assertj.core.api.Assertions.assertThat;
 import static se.bjurr.violations.comments.github.lib.GitHubCommentsProvider.getGitHubClient;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class GitHubCommentsProviderTest {
 
