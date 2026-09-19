@@ -1,0 +1,40 @@
+{
+  "id": 5255977755,
+  "node_id": "PRR_kwDOAyn32M8AAAABOUfbGw",
+  "user": {
+    "login": "tomasbjerre",
+    "id": 439571,
+    "node_id": "MDQ6VXNlcjQzOTU3MQ==",
+    "avatar_url": "https://avatars.githubusercontent.com/u/439571?u=83666cc28e6a1280751981fd73f0006e87ca9280&v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/tomasbjerre",
+    "html_url": "https://github.com/tomasbjerre",
+    "followers_url": "https://api.github.com/users/tomasbjerre/followers",
+    "following_url": "https://api.github.com/users/tomasbjerre/following{/other_user}",
+    "gists_url": "https://api.github.com/users/tomasbjerre/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/tomasbjerre/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/tomasbjerre/subscriptions",
+    "organizations_url": "https://api.github.com/users/tomasbjerre/orgs",
+    "repos_url": "https://api.github.com/users/tomasbjerre/repos",
+    "events_url": "https://api.github.com/users/tomasbjerre/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/tomasbjerre/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "body": "",
+  "state": "COMMENTED",
+  "html_url": "https://github.com/tomasbjerre/violation-comments-to-github-lib/pull/13#pullrequestreview-5255977755",
+  "pull_request_url": "https://api.github.com/repos/tomasbjerre/violation-comments-to-github-lib/pulls/13",
+  "author_association": "OWNER",
+  "_links": {
+    "html": {
+      "href": "https://github.com/tomasbjerre/violation-comments-to-github-lib/pull/13#pullrequestreview-5255977755"
+    },
+    "pull_request": {
+      "href": "https://api.github.com/repos/tomasbjerre/violation-comments-to-github-lib/pulls/13"
+    }
+  },
+  "submitted_at": "2026-09-19T14:12:47Z",
+  "commit_id": "757915b72b188ed26660f25a8612e322c946ec49"
+}

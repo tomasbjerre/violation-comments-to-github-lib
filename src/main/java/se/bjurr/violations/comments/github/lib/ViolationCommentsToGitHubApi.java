@@ -10,7 +10,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import se.bjurr.violations.comments.lib.CommentsProvider;
 import se.bjurr.violations.lib.ViolationsLogger;
 import se.bjurr.violations.lib.model.Violation;
 
@@ -56,6 +55,7 @@ public class ViolationCommentsToGitHubApi {
   private Integer maxCommentSize;
   private Integer maxNumberOfViolations;
   private boolean commentOnlyChangedFiles = true;
+  private boolean useReviewComments = false;
 
   private ViolationCommentsToGitHubApi() {}
 
@@ -160,9 +160,26 @@ public class ViolationCommentsToGitHubApi {
   public void toPullRequest() throws Exception {
     this.populateFromEnvironmentVariables();
     this.checkState();
-    final CommentsProvider commentsProvider =
+    final GitHubCommentsProvider commentsProvider =
         new GitHubCommentsProvider(this.violationsLogger, this);
     createComments(this.violationsLogger, this.violations, commentsProvider);
+    commentsProvider.flushPendingReview();
+  }
+
+  /**
+   * When {@code true}, single file comments ({@link #withCreateSingleFileComments(boolean)}) are
+   * batched into one GitHub pull request review instead of being posted individually. GitHub
+   * validates the whole batch atomically: a single comment with an invalid position fails the
+   * entire review and none of the comments are created, whereas with individual comments the other,
+   * valid ones would still go through.
+   */
+  public ViolationCommentsToGitHubApi withUseReviewComments(final boolean useReviewComments) {
+    this.useReviewComments = useReviewComments;
+    return this;
+  }
+
+  public boolean getUseReviewComments() {
+    return this.useReviewComments;
   }
 
   public ViolationCommentsToGitHubApi withCommentOnlyChangedContent(

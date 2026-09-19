@@ -9,6 +9,7 @@ import se.bjurr.violations.comments.github.lib.client.GitHubApiClient;
 import se.bjurr.violations.comments.github.lib.client.model.GitHubCommentDto;
 import se.bjurr.violations.comments.github.lib.client.model.GitHubCommitDto;
 import se.bjurr.violations.comments.github.lib.client.model.GitHubFileDto;
+import se.bjurr.violations.comments.github.lib.client.model.ReviewCommentInput;
 import se.bjurr.violations.comments.lib.CommentsProvider;
 import se.bjurr.violations.comments.lib.model.ChangedFile;
 import se.bjurr.violations.comments.lib.model.Comment;
@@ -23,6 +24,7 @@ public class GitHubCommentsProvider implements CommentsProvider {
   private final String pullRequestCommit;
   private final ViolationCommentsToGitHubApi violationCommentsToGitHubApi;
   private final ViolationsLogger violationsLogger;
+  private final List<ReviewCommentInput> pendingReviewComments = new ArrayList<>();
 
   public GitHubCommentsProvider(
       final ViolationsLogger violationsLogger,
@@ -60,6 +62,11 @@ public class GitHubCommentsProvider implements CommentsProvider {
     final Optional<Integer> lineToCommentOpt =
         new PatchParserUtil(patchString).findLineInDiff(line);
     final Integer lineToComment = lineToCommentOpt.orElse(1);
+    if (this.violationCommentsToGitHubApi.getUseReviewComments()) {
+      this.pendingReviewComments.add(
+          new ReviewCommentInput(file.getFilename(), lineToComment, comment));
+      return;
+    }
     try {
       this.gitHubApiClient.createReviewComment(
           this.violationCommentsToGitHubApi.getPullRequestId(),
@@ -87,6 +94,28 @@ public class GitHubCommentsProvider implements CommentsProvider {
               + "\"" //
           ,
           e);
+    }
+  }
+
+  /**
+   * Submits any single file comments buffered by {@link #createSingleFileComment} (when {@link
+   * ViolationCommentsToGitHubApi#getUseReviewComments()} is {@code true}) as a single pull request
+   * review, instead of one comment per call. Must be called once after all comments have been
+   * created.
+   */
+  public void flushPendingReview() {
+    if (this.pendingReviewComments.isEmpty()) {
+      return;
+    }
+    try {
+      this.gitHubApiClient.createReview(
+          this.violationCommentsToGitHubApi.getPullRequestId(),
+          this.pullRequestCommit,
+          this.pendingReviewComments);
+    } catch (final RuntimeException e) {
+      this.violationsLogger.log(SEVERE, e.getMessage(), e);
+    } finally {
+      this.pendingReviewComments.clear();
     }
   }
 

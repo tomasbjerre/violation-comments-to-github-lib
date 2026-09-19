@@ -7,9 +7,11 @@ import java.util.List;
 import se.bjurr.violations.comments.github.lib.client.GitHubInvoker.Method;
 import se.bjurr.violations.comments.github.lib.client.model.CreateIssueCommentRequest;
 import se.bjurr.violations.comments.github.lib.client.model.CreateReviewCommentRequest;
+import se.bjurr.violations.comments.github.lib.client.model.CreateReviewRequest;
 import se.bjurr.violations.comments.github.lib.client.model.GitHubCommentDto;
 import se.bjurr.violations.comments.github.lib.client.model.GitHubCommitDto;
 import se.bjurr.violations.comments.github.lib.client.model.GitHubFileDto;
+import se.bjurr.violations.comments.github.lib.client.model.ReviewCommentInput;
 import se.bjurr.violations.lib.ViolationsLogger;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.json.JsonMapper;
@@ -186,6 +188,14 @@ public class GitHubApiClient {
         this.invokeChecked(
             this.repoPath() + "/pulls/" + pullRequestId + "/comments", Method.POST, postContent);
     return JSON_MAPPER.readValue(response.getBody(), GitHubCommentDto.class);
+  }
+
+  public void createReview(
+      final int pullRequestId, final String commitId, final List<ReviewCommentInput> comments) {
+    final String postContent =
+        JSON_MAPPER.writeValueAsString(new CreateReviewRequest(commitId, "COMMENT", comments));
+    this.invokeChecked(
+        this.repoPath() + "/pulls/" + pullRequestId + "/reviews", Method.POST, postContent);
   }
 
   public void deleteReviewComment(final long commentId) {

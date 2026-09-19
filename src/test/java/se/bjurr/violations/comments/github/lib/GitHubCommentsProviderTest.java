@@ -38,14 +38,14 @@ import tools.jackson.databind.json.JsonMapper;
 /**
  * Integration tests that replay, via WireMock, request/response pairs recorded from the real GitHub
  * REST API. Every fixture under {@code src/test/resources/github-api} except {@code
- * issue-comment-422-known-bug.json} is an unmodified capture: a throwaway branch and pull request
- * (#12) were pushed to {@code tomasbjerre/violation-comments-to-github-lib}, exercised with {@code
- * gh api} for every scenario below (including a real 422 from an out-of-range diff position), and
- * then deleted. {@code issue-comment-422-known-bug.json} reconstructs the exact error shape from
- * the bug report this rewrite fixes ("Validation Failed (422): Error with 'data' field in
- * IssueComment resource") — that specific failure is a serialization defect in the old {@code
- * org.eclipse.egit.github.core} client, not something reproducible by sending well-formed JSON, so
- * it could not be captured live.
+ * issue-comment-422-known-bug.json} is an unmodified capture: throwaway branches and pull requests
+ * (#12, #13) were pushed to {@code tomasbjerre/violation-comments-to-github-lib}, exercised with
+ * {@code gh api} for every scenario below (including a real 422 from an out-of-range diff position,
+ * and a real atomic-failure 422 from the reviews endpoint), and then deleted. {@code
+ * issue-comment-422-known-bug.json} reconstructs the exact error shape from the bug report this
+ * rewrite fixes ("Validation Failed (422): Error with 'data' field in IssueComment resource") —
+ * that specific failure is a serialization defect in the old {@code org.eclipse.egit.github.core}
+ * client, not something reproducible by sending well-formed JSON, so it could not be captured live.
  *
  * <p>WireMock never runs on a host named {@code api.github.com}/{@code github.com}/{@code
  * gist.github.com}, so every request below also exercises the GitHub Enterprise {@code /api/v3} URL
@@ -430,5 +430,68 @@ class GitHubCommentsProviderTest {
 
     assertThat(provider.shouldComment(file, 3)).isTrue();
     assertThat(provider.shouldComment(file, 999)).isFalse();
+  }
+
+  @Test
+  void withUseReviewCommentsBuffersCommentsAndPostsThemAsOneReviewOnFlush() {
+    this.wireMock.stubFor(
+        post(urlPathEqualTo(REPO_PATH + "/pulls/" + PR_ID + "/reviews"))
+            .willReturn(okJson(fixture("review-create.json"))));
+
+    final GitHubCommentsProvider provider =
+        this.newProvider(this.newApi().withUseReviewComments(true));
+    final ChangedFile file = new ChangedFile("REVIEW_RECORDING_NOTE.md", List.of(EXAMPLE_PATCH));
+
+    provider.createSingleFileComment(file, 1, "Recorded review comment 1");
+    provider.createSingleFileComment(file, 2, "Recorded review comment 2");
+
+    this.wireMock.verify(
+        0, postRequestedFor(urlPathEqualTo(REPO_PATH + "/pulls/" + PR_ID + "/comments")));
+
+    provider.flushPendingReview();
+
+    final Map<?, ?> body =
+        JSON_MAPPER.readValue(
+            this.lastRequestBody(
+                postRequestedFor(urlPathEqualTo(REPO_PATH + "/pulls/" + PR_ID + "/reviews"))),
+            Map.class);
+    assertThat(body.get("commit_id")).isEqualTo(LAST_COMMIT_SHA);
+    assertThat(body.get("event")).isEqualTo("COMMENT");
+    final List<?> comments = (List<?>) body.get("comments");
+    assertThat(comments).hasSize(2);
+    assertThat(this.severeLogs).isEmpty();
+  }
+
+  @Test
+  void flushPendingReviewDoesNothingWhenThereAreNoBufferedComments() {
+    final GitHubCommentsProvider provider =
+        this.newProvider(this.newApi().withUseReviewComments(true));
+
+    provider.flushPendingReview();
+
+    this.wireMock.verify(
+        0, postRequestedFor(urlPathEqualTo(REPO_PATH + "/pulls/" + PR_ID + "/reviews")));
+  }
+
+  @Test
+  void flushPendingReviewLogsSevereOnTheRealAtomicValidationFailureInsteadOfThrowing() {
+    this.wireMock.stubFor(
+        post(urlPathEqualTo(REPO_PATH + "/pulls/" + PR_ID + "/reviews"))
+            .willReturn(
+                aResponse()
+                    .withStatus(422)
+                    .withHeader("Content-Type", "application/json; charset=utf-8")
+                    .withBody(fixture("review-create-422.json"))));
+
+    final GitHubCommentsProvider provider =
+        this.newProvider(this.newApi().withUseReviewComments(true));
+    final ChangedFile file = new ChangedFile("REVIEW_RECORDING_NOTE.md", List.of(EXAMPLE_PATCH));
+    provider.createSingleFileComment(file, 1, "valid comment");
+    provider.createSingleFileComment(file, 999, "invalid comment");
+
+    provider.flushPendingReview();
+
+    assertThat(this.severeLogs).isNotEmpty();
+    assertThat(this.severeLogs.get(0)).contains("Position could not be resolved");
   }
 }
