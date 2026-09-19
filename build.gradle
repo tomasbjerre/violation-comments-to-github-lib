@@ -8,9 +8,10 @@ javaExtension {
 
 dependencies {
 	api "se.bjurr.violations:violation-comments-lib:1.111.0"
-	api "org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.5"
+	api "tools.jackson.core:jackson-databind:3.2.2"
 
 	testImplementation "org.junit.jupiter:junit-jupiter:6.1.3"
 	testImplementation "org.assertj:assertj-core:3.27.7"
+	testImplementation "org.wiremock:wiremock:3.13.2"
 	testRuntimeOnly "org.junit.platform:junit-platform-launcher:6.1.3"
 }

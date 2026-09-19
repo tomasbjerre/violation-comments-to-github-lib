@@ -1,0 +1,26 @@
+[
+  {
+    "sha": "9864d229edac54470a49f5fe36c3caaead9af23f",
+    "filename": "src/test/resources/recording-scratch/Example.txt",
+    "status": "added",
+    "additions": 5,
+    "deletions": 0,
+    "changes": 5,
+    "blob_url": "https://github.com/tomasbjerre/violation-comments-to-github-lib/blob/24043046096d8dd3e3362e7311cc1ba9b203bfef/src%2Ftest%2Fresources%2Frecording-scratch%2FExample.txt",
+    "raw_url": "https://github.com/tomasbjerre/violation-comments-to-github-lib/raw/24043046096d8dd3e3362e7311cc1ba9b203bfef/src%2Ftest%2Fresources%2Frecording-scratch%2FExample.txt",
+    "contents_url": "https://api.github.com/repos/tomasbjerre/violation-comments-to-github-lib/contents/src%2Ftest%2Fresources%2Frecording-scratch%2FExample.txt?ref=24043046096d8dd3e3362e7311cc1ba9b203bfef",
+    "patch": "@@ -0,0 +1,5 @@\n+line one\n+line two\n+line three\n+line four\n+line five"
+  },
+  {
+    "sha": "acc601c3b2f675064406f39b4641225b7b6cf637",
+    "filename": "src/test/resources/recording-scratch/NOTE.md",
+    "status": "added",
+    "additions": 3,
+    "deletions": 0,
+    "changes": 3,
+    "blob_url": "https://github.com/tomasbjerre/violation-comments-to-github-lib/blob/24043046096d8dd3e3362e7311cc1ba9b203bfef/src%2Ftest%2Fresources%2Frecording-scratch%2FNOTE.md",
+    "raw_url": "https://github.com/tomasbjerre/violation-comments-to-github-lib/raw/24043046096d8dd3e3362e7311cc1ba9b203bfef/src%2Ftest%2Fresources%2Frecording-scratch%2FNOTE.md",
+    "contents_url": "https://api.github.com/repos/tomasbjerre/violation-comments-to-github-lib/contents/src%2Ftest%2Fresources%2Frecording-scratch%2FNOTE.md?ref=24043046096d8dd3e3362e7311cc1ba9b203bfef",
+    "patch": "@@ -0,0 +1,3 @@\n+Temporary file used to open a scratch PR for recording real GitHub API\n+request/response payloads while rewriting the GitHub REST client.\n+This PR and branch will be deleted once recording is complete."
+  }
+]

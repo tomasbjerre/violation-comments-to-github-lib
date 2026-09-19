@@ -1,0 +1,12 @@
+{
+  "message": "Validation Failed",
+  "errors": [
+    {
+      "resource": "IssueComment",
+      "field": "data",
+      "code": "custom"
+    }
+  ],
+  "documentation_url": "https://docs.github.com/rest/issues/comments#create-an-issue-comment",
+  "status": "422"
+}

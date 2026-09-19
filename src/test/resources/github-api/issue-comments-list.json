@@ -1,0 +1,48 @@
+[
+  {
+    "url": "https://api.github.com/repos/tomasbjerre/violation-comments-to-github-lib/issues/comments/5742380693",
+    "html_url": "https://github.com/tomasbjerre/violation-comments-to-github-lib/pull/12#issuecomment-5742380693",
+    "issue_url": "https://api.github.com/repos/tomasbjerre/violation-comments-to-github-lib/issues/12",
+    "id": 5742380693,
+    "node_id": "IC_kwDOAyn32M8AAAABVkXGlQ",
+    "user": {
+      "login": "tomasbjerre",
+      "id": 439571,
+      "node_id": "MDQ6VXNlcjQzOTU3MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/439571?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/tomasbjerre",
+      "html_url": "https://github.com/tomasbjerre",
+      "followers_url": "https://api.github.com/users/tomasbjerre/followers",
+      "following_url": "https://api.github.com/users/tomasbjerre/following{/other_user}",
+      "gists_url": "https://api.github.com/users/tomasbjerre/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/tomasbjerre/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/tomasbjerre/subscriptions",
+      "organizations_url": "https://api.github.com/users/tomasbjerre/orgs",
+      "repos_url": "https://api.github.com/users/tomasbjerre/repos",
+      "events_url": "https://api.github.com/users/tomasbjerre/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/tomasbjerre/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-09-19T13:46:35Z",
+    "updated_at": "2026-09-19T13:46:35Z",
+    "body": "Recorded test comment from violation-comments-to-github-lib rewrite",
+    "author_association": "OWNER",
+    "reactions": {
+      "url": "https://api.github.com/repos/tomasbjerre/violation-comments-to-github-lib/issues/comments/5742380693/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

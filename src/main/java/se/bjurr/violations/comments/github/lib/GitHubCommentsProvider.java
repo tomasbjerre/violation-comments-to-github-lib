@@ -1,22 +1,14 @@
 package se.bjurr.violations.comments.github.lib;
 
 import static java.util.logging.Level.SEVERE;
-import static org.eclipse.egit.github.core.client.IGitHubConstants.HOST_API;
-import static org.eclipse.egit.github.core.client.IGitHubConstants.HOST_DEFAULT;
-import static org.eclipse.egit.github.core.client.IGitHubConstants.HOST_GISTS;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import org.eclipse.egit.github.core.CommitComment;
-import org.eclipse.egit.github.core.CommitFile;
-import org.eclipse.egit.github.core.RepositoryCommit;
-import org.eclipse.egit.github.core.RepositoryId;
-import org.eclipse.egit.github.core.client.GitHubClient;
-import org.eclipse.egit.github.core.service.IssueService;
-import org.eclipse.egit.github.core.service.PullRequestService;
+import se.bjurr.violations.comments.github.lib.client.GitHubApiClient;
+import se.bjurr.violations.comments.github.lib.client.model.GitHubCommentDto;
+import se.bjurr.violations.comments.github.lib.client.model.GitHubCommitDto;
+import se.bjurr.violations.comments.github.lib.client.model.GitHubFileDto;
 import se.bjurr.violations.comments.lib.CommentsProvider;
 import se.bjurr.violations.comments.lib.model.ChangedFile;
 import se.bjurr.violations.comments.lib.model.Comment;
@@ -27,12 +19,8 @@ public class GitHubCommentsProvider implements CommentsProvider {
   private static final String TYPE_DIFF = "TYPE_DIFF";
   private static final String TYPE_PR = "TYPE_PR";
 
-  private final IssueService issueSerivce;
+  private final GitHubApiClient gitHubApiClient;
   private final String pullRequestCommit;
-  private final PullRequestService pullRequestService;
-
-  private final RepositoryId repository;
-
   private final ViolationCommentsToGitHubApi violationCommentsToGitHubApi;
   private final ViolationsLogger violationsLogger;
 
@@ -40,53 +28,27 @@ public class GitHubCommentsProvider implements CommentsProvider {
       final ViolationsLogger violationsLogger,
       final ViolationCommentsToGitHubApi violationCommentsToGitHubApi) {
     this.violationsLogger = violationsLogger;
-    final GitHubClient gitHubClient = getGitHubClient(violationCommentsToGitHubApi.getGitHubUrl());
-    if (violationCommentsToGitHubApi.getOAuth2Token() != null) {
-      gitHubClient.setOAuth2Token(violationCommentsToGitHubApi.getOAuth2Token());
-    } else if (violationCommentsToGitHubApi.getUsername() != null
-        && violationCommentsToGitHubApi.getPassword() != null) {
-      gitHubClient.setCredentials(
-          violationCommentsToGitHubApi.getUsername(), violationCommentsToGitHubApi.getPassword());
-    }
-    this.repository =
-        new RepositoryId(
+    this.violationCommentsToGitHubApi = violationCommentsToGitHubApi;
+    this.gitHubApiClient =
+        new GitHubApiClient(
+            violationsLogger,
+            violationCommentsToGitHubApi.getGitHubUrl(),
+            violationCommentsToGitHubApi.getOAuth2Token(),
+            violationCommentsToGitHubApi.getUsername(),
+            violationCommentsToGitHubApi.getPassword(),
             violationCommentsToGitHubApi.getRepositoryOwner(),
             violationCommentsToGitHubApi.getRepositoryName());
-    this.pullRequestService = new PullRequestService(gitHubClient);
-    this.issueSerivce = new IssueService(gitHubClient);
-    final List<RepositoryCommit> commits;
-    try {
-      commits =
-          this.pullRequestService.getCommits(
-              this.repository, violationCommentsToGitHubApi.getPullRequestId());
-    } catch (final IOException e) {
-      throw new RuntimeException(e);
-    }
-    this.pullRequestCommit = commits.get(commits.size() - 1).getSha();
-    this.violationCommentsToGitHubApi = violationCommentsToGitHubApi;
-  }
-
-  static GitHubClientTestable getGitHubClient(final String gitHubUrl) {
-    try {
-      final URL url = new URL(gitHubUrl);
-      String hostname = url.getHost();
-      if (HOST_DEFAULT.equals(hostname) || HOST_GISTS.equals(hostname)) {
-        hostname = HOST_API;
-      }
-      final int port = url.getPort();
-      final String scheme = url.getProtocol();
-      return new GitHubClientTestable(hostname, port, scheme);
-    } catch (final IOException e) {
-      throw new IllegalArgumentException(e);
-    }
+    final List<GitHubCommitDto> commits =
+        this.gitHubApiClient.getCommits(violationCommentsToGitHubApi.getPullRequestId());
+    this.pullRequestCommit = commits.get(commits.size() - 1).sha;
   }
 
   @Override
   public void createComment(final String comment) {
     try {
-      this.issueSerivce.createComment(
-          this.repository, this.violationCommentsToGitHubApi.getPullRequestId(), comment);
-    } catch (final IOException e) {
+      this.gitHubApiClient.createIssueComment(
+          this.violationCommentsToGitHubApi.getPullRequestId(), comment);
+    } catch (final RuntimeException e) {
       this.violationsLogger.log(SEVERE, e.getMessage(), e);
     }
   }
@@ -99,15 +61,13 @@ public class GitHubCommentsProvider implements CommentsProvider {
         new PatchParserUtil(patchString).findLineInDiff(line);
     final Integer lineToComment = lineToCommentOpt.orElse(1);
     try {
-      final CommitComment commitComment = new CommitComment();
-      commitComment.setBody(comment);
-      commitComment.setPath(file.getFilename());
-      commitComment.setCommitId(this.pullRequestCommit);
-      commitComment.setLine(line);
-      commitComment.setPosition(lineToComment);
-      this.pullRequestService.createComment(
-          this.repository, this.violationCommentsToGitHubApi.getPullRequestId(), commitComment);
-    } catch (final IOException e) {
+      this.gitHubApiClient.createReviewComment(
+          this.violationCommentsToGitHubApi.getPullRequestId(),
+          comment,
+          this.pullRequestCommit,
+          file.getFilename(),
+          lineToComment);
+    } catch (final RuntimeException e) {
       this.violationsLogger.log(
           SEVERE,
           "File: \""
@@ -135,23 +95,19 @@ public class GitHubCommentsProvider implements CommentsProvider {
     final List<Comment> comments = new ArrayList<>();
     try {
       final List<String> specifics = new ArrayList<>();
-      for (final CommitComment commitComment :
-          this.pullRequestService.getComments(
-              this.repository, this.violationCommentsToGitHubApi.getPullRequestId())) {
+      for (final GitHubCommentDto reviewComment :
+          this.gitHubApiClient.getReviewComments(
+              this.violationCommentsToGitHubApi.getPullRequestId())) {
         comments.add(
-            new Comment(
-                Long.toString(commitComment.getId()),
-                commitComment.getBody(),
-                TYPE_DIFF,
-                specifics));
+            new Comment(Long.toString(reviewComment.id), reviewComment.body, TYPE_DIFF, specifics));
       }
-      for (final org.eclipse.egit.github.core.Comment comment :
-          this.issueSerivce.getComments(
-              this.repository, this.violationCommentsToGitHubApi.getPullRequestId())) {
+      for (final GitHubCommentDto issueComment :
+          this.gitHubApiClient.getIssueComments(
+              this.violationCommentsToGitHubApi.getPullRequestId())) {
         comments.add(
-            new Comment(Long.toString(comment.getId()), comment.getBody(), TYPE_PR, specifics));
+            new Comment(Long.toString(issueComment.id), issueComment.body, TYPE_PR, specifics));
       }
-    } catch (final Exception e) {
+    } catch (final RuntimeException e) {
       this.violationsLogger.log(SEVERE, e.getMessage(), e);
     }
     return comments;
@@ -161,15 +117,14 @@ public class GitHubCommentsProvider implements CommentsProvider {
   public List<ChangedFile> getFiles() {
     final List<ChangedFile> changedFiles = new ArrayList<>();
     try {
-      final List<CommitFile> files =
-          this.pullRequestService.getFiles(
-              this.repository, this.violationCommentsToGitHubApi.getPullRequestId());
-      for (final CommitFile commitFile : files) {
+      final List<GitHubFileDto> files =
+          this.gitHubApiClient.getFiles(this.violationCommentsToGitHubApi.getPullRequestId());
+      for (final GitHubFileDto file : files) {
         final List<String> list = new ArrayList<>();
-        list.add(commitFile.getPatch());
-        changedFiles.add(new ChangedFile(commitFile.getFilename(), list));
+        list.add(file.patch);
+        changedFiles.add(new ChangedFile(file.filename, list));
       }
-    } catch (final IOException e) {
+    } catch (final RuntimeException e) {
       this.violationsLogger.log(SEVERE, e.getMessage(), e);
     }
     return changedFiles;
@@ -181,11 +136,11 @@ public class GitHubCommentsProvider implements CommentsProvider {
       try {
         final Long commentId = Long.valueOf(comment.getIdentifier());
         if (comment.getType().equals(TYPE_DIFF)) {
-          this.pullRequestService.deleteComment(this.repository, commentId);
+          this.gitHubApiClient.deleteReviewComment(commentId);
         } else {
-          this.issueSerivce.deleteComment(this.repository, commentId);
+          this.gitHubApiClient.deleteIssueComment(commentId);
         }
-      } catch (final Throwable e) {
+      } catch (final RuntimeException e) {
         this.violationsLogger.log(SEVERE, e.getMessage(), e);
       }
     }
