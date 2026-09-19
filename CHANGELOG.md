@@ -1,3 +1,34 @@
+## 1.84.0 (2026-09-19)
+
+### Features
+
+-  batch single file comments into one pull request review ([f8921](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/f8921ee7a2f2520) Tomas Bjerre)  
+
+### Bug Fixes
+
+-  replace unmaintained github client to fix 422 comment errors ([4822c](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/4822c51c0e58f45) Tomas Bjerre)  
+
+### Dependency updates
+
+- updating dependencies ([937c5](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/937c5339b09a48e) Tomas Bjerre)  
+### Other changes
+
+**archive**
+
+
+[e82c8](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/e82c8a95d4f1936) Tomas Bjerre *2023-07-30 15:17:49*
+
+**new build script**
+
+
+[48d85](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/48d8575a7307be6) Tomas Bjerre *2021-04-04 15:30:24*
+
+**Updating changelog with 1.83.1 [GRADLE SCRIPT]**
+
+
+[0549d](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/0549ddc46cb35c5) Tomas Bjerre *2021-04-04 15:04:22*
+
+
 
 # violation-comments-to-github-lib changelog
 
