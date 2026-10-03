@@ -72,8 +72,6 @@ public class GitHubInvoker {
                   ? BodyPublishers.noBody()
                   : BodyPublishers.ofString(postContent, UTF_8));
           break;
-        default:
-          throw new IllegalArgumentException("Unsupported http method: " + method);
       }
 
       final HttpResponse<String> response =
