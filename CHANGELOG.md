@@ -1,3 +1,12 @@
+## 1.84.1 (2026-10-03)
+
+### Bug Fixes
+
+-  remove literal quotes from gradle.properties description ([0ec10](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/0ec10ee051c8c55) Tomas Bjerre)  
+
+### Dependency updates
+
+- update plugin se.bjurr.gradle.bundle-jar to v2.4.4 ([4e754](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/4e7543a84c53cc0) Tomas Bjerre)  
 ## 1.84.0 (2026-09-19)
 
 ### Features
