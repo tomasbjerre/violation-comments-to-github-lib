@@ -7,7 +7,7 @@ javaExtension {
 }
 
 dependencies {
-	api "se.bjurr.violations:violation-comments-lib:1.111.0"
+	api "se.bjurr.violations:violation-comments-lib:1.111.2"
 	api "tools.jackson.core:jackson-databind:3.2.2"
 
 	testImplementation "org.junit.jupiter:junit-jupiter:6.1.3"
