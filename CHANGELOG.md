@@ -1,3 +1,12 @@
+## 1.84.2 (2026-10-24)
+
+### Dependency updates
+
+- update dependency tools.jackson.core:jackson-databind to v3.2.4 (#18) ([6693a](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/6693a4e6caa56f9) renovate[bot])  
+- update dependency gradle to v9.8.2 (#17) ([036e7](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/036e74790cb9118) renovate[bot])  
+- update dependency gradle to v9.8.1 (#16) ([83fd9](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/83fd9bf84563d39) renovate[bot])  
+- update dependency tools.jackson.core:jackson-databind to v3.2.3 (#15) ([d2a49](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/d2a49ddc0f0f0c0) renovate[bot])  
+- update dependency se.bjurr.violations:violation-comments-lib to v1.111.2 (#14) ([512e6](https://github.com/tomasbjerre/violation-comments-to-github-lib/commit/512e6be94d62ef5) renovate[bot])  
 ## 1.84.1 (2026-10-03)
 
 ### Bug Fixes
